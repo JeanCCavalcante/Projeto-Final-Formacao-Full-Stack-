@@ -21,7 +21,8 @@
 
 ## Sobre o Projeto
 
-Este repositório mostra um fluxo ETL completo em batch usando dados reais de Yellow Taxi de NYC.
+Este repositório mostra um fluxo ETL completo em batch usando dados reais de ...
+
 
 O pipeline cobre as etapas de:
 
