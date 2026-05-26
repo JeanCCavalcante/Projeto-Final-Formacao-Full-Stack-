@@ -15,7 +15,6 @@
 - [Pré-requisitos](#pré-requisitos)
 - [Instalação e Configuração](#instalação-e-configuração)
 - [Como Executar](#como-executar)
-- [Contato](#contato)
 
 ---
 
