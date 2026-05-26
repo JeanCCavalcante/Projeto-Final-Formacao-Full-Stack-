@@ -67,7 +67,7 @@ segurança, acessibilidade e análise de dados.
 
 | Camada | Tecnologia |
 |--------|------------|
-| Front-end | HTML5 Semântico, CSS3 (Flexbox/Grid), JavaScript ES6. |
+| Front-end | HTML5 Semântico, CSS3, JavaScript ES6, Angular. |
 | Back-end  | Node.js, Express.js. |
 | Banco de Dados | MongoDB (via Mongoose ODM). |
 | Segurança |  JWT (JSON Web Token), Bcrypt.js. | 
@@ -133,9 +133,9 @@ possam comprometer a métrica de desempenho.
 ## A Squad
 
 1. Dev: [Ronny] - Lead Back-end & Segurança
-2. Dev: [Milenna] - Back-end & Banco de Dados
+2. Dev: [Laura] - Back-end & Banco de Dados
 3. Dev: [Jessicah] - Lead Front-end & UI/UX 
-4. Dev: [Laura] - Front-end & Integração de API 
+4. Dev: [Milenna] - Front-end & Integração de API 
 5. Dev: [Jean] - Data Science & Integração Python 
 
 ---
