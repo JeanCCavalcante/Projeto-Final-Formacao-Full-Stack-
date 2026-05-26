@@ -132,7 +132,7 @@ possam comprometer a métrica de desempenho.
 
 ## A Squad
 
-Dev 1: [Laura] - Lead Back-end & Segurança
+1 Dev : [Laura] - Lead Back-end & Segurança
 Dev 2: [Milenna] - Back-end & Banco de Dados
 Dev 3: [Jessicah] - Lead Front-end & UI/UX 
 Dev 4: [Ronny] - Front-end & Integração de API 
