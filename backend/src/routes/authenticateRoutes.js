@@ -6,7 +6,7 @@ const userController = require('../controllers/user.controller.js');
 
 const routes = Router();
 
-routes.post('/register', userController.create);
+routes.post('/register', authenticateController.register); // 
 
 // chama o método login que valida credenciais e gera o JWT
 routes.post('/login', authenticateController.login);

@@ -1,68 +1,104 @@
 const Task = require('../models/Task'); 
+const TaskHistory = require('../models/TaskHistory'); 
 
 module.exports = {
-  // READ: Listar apenas as tarefas do usuário autenticado
+  // Listar todas as tarefas vinculadas ao mentorado autenticado
   async index(req, res) {
     try {
       const userId = req.user.id; 
-      const tasks = await Task.find({ user: userId }); 
+      const tasks = await Task.find({ mentorado: userId }); 
       return res.json(tasks);
     } catch (error) {
       return res.status(500).json({ error: "Erro ao listar as tarefas." });
     }
   },
 
-  // CREATE: Cadastrar uma nova tarefa vinculada ao usuário logado
+  // Cadastrar uma nova tarefa e registrar o estado inicial de 'pendente' no histórico
   async store(req, res) {
     try {
-      const { title, description, status } = req.body;
+      const { titulo, descricao, prioridade, area_atuacao, mentor_responsavel, data_inicio } = req.body;
       const userId = req.user.id;
+      const status_atual = 'pendente';
 
       const newTask = await Task.create({
-        title,
-        description,
-        status,
-        user: userId 
+        titulo,
+        descricao,
+        prioridade,
+        status_atual,
+        area_atuacao,
+        mentor_responsavel,
+        data_inicio,
+        mentorado: userId 
+      });
+
+      // Registra o nascimento da tarefa na história puro, sem campos adicionais
+      await TaskHistory.create({
+        task_id: newTask._id,
+        status_anterior: null,
+        status_novo: status_atual,
+        data_mudanca: new Date()
       });
 
       return res.status(201).json(newTask);
     } catch (error) {
-      return res.status(400).json({ error: "Erro ao criar a tarefa. Verifique os campos." });
+      console.error("Erro no salvamento da tarefa:", error);
+      return res.status(400).json({ error: "Erro ao criar a tarefa." });
     }
   },
 
-  // UPDATE: Atualizar status ou  tarefa
+  // Atualizar dados, campos de data e o feedback_conclusao_mentorado diretamente no documento da Task
   async update(req, res) {
     try {
       const { id } = req.params; 
-      const { title, description, status } = req.body;
+      const { titulo, descricao, prioridade, status_atual, area_atuacao, mentor_responsavel, data_inicio, data_conclusao, feedback_conclusao_mentorado } = req.body;
       const userId = req.user.id;
 
-      // Busca a tarefa primeiro para validar a segurança
       const task = await Task.findById(id);
 
       if (!task) {
         return res.status(404).json({ error: "Tarefa não encontrada." });
       }
 
-      // Verificar se a tarefa pertence a quem está tentando alterar
-      if (task.user.toString() !== userId) {
-        return res.status(403).json({ error: "Acesso negado. Esta tarefa pertence a outro usuário." });
+      if (task.mentorado.toString() !== userId) {
+        return res.status(403).json({ error: "Acesso negado." });
       }
 
-      // Atualiza os campos enviados
-      if (title) task.title = title;
-      if (description) task.description = description;
-      if (status) task.status = status;
+      const statusMudou = status_atual && status_atual !== task.status_atual;
+      const statusAnterior = task.status_atual;
+
+      // Atualização dos campos textuais e enums
+      if (titulo) task.titulo = titulo;
+      if (descricao) task.descricao = descricao;
+      if (prioridade) task.prioridade = prioridade;
+      if (area_atuacao) task.area_atuacao = area_atuacao;
+      if (mentor_responsavel) task.mentor_responsavel = mentor_responsavel;
+      
+      // Modificação direta e livre dos campos de data e do feedback do mentorado
+      if (data_inicio !== undefined) task.data_inicio = data_inicio;
+      if (data_conclusao !== undefined) task.data_conclusao = data_conclusao;
+      if (feedback_conclusao_mentorado !== undefined) task.feedback_conclusao_mentorado = feedback_conclusao_mentorado;
+      if (status_atual) task.status_atual = status_atual;
 
       await task.save();
+
+      // Gravação no Histórico restrita estritamente ao rastreamento da mudança de status
+      if (statusMudou) {
+        await TaskHistory.create({
+          task_id: task._id,
+          status_anterior: statusAnterior,
+          status_novo: status_atual,
+          data_mudanca: new Date()
+        });
+      }
+
       return res.json(task);
     } catch (error) {
+      console.error("Erro na atualização da tarefa:", error);
       return res.status(500).json({ error: "Erro ao atualizar a tarefa." });
     }
   },
 
-  // 4. DELETE: Remover uma tarefa verificando a propriedade
+  // Remover uma tarefa do banco de dados
   async delete(req, res) {
     try {
       const { id } = req.params;
@@ -74,9 +110,8 @@ module.exports = {
         return res.status(404).json({ error: "Tarefa não encontrada." });
       }
 
-      // Segurança: impede que um usuário delete a tarefa de outro
-      if (task.user.toString() !== userId) {
-        return res.status(403).json({ error: "Acesso negado. Você não pode deletar esta tarefa." });
+      if (task.mentorado.toString() !== userId) {
+        return res.status(403).json({ error: "Acesso negado." });
       }
 
       await task.deleteOne();
