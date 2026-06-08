@@ -1,7 +1,7 @@
 const UserModel = require('../models/User.js');
 const bcrypt = require('bcryptjs');
 
-// LISTAR USUÁRIOS (Mantido seu padrão)
+// Listar todos os usuários cadastrados ocultando as senhas
 const list = async (req, res) => {
   try {
     const users = await UserModel.find({}, { password: 0 }); 
@@ -11,7 +11,7 @@ const list = async (req, res) => {
   }
 };
 
-// BUSCAR POR ID 
+// Buscar os dados de um usuário específico utilizando o ID do parâmetro
 const getById = async (req, res) => {
   const { id } = req.params;
   try {
@@ -33,51 +33,32 @@ const getById = async (req, res) => {
   }
 };
 
-// CRIAR USUÁRIO 
-const create = async (req, res) => {
-  const { name, email, password } = req.body; 
+/* CRIAR USUÁRIO substituída pelo método 'register' no auth.controller */
 
-  try {
-    // REQUISITO: Verificar se o e-mail já existe no banco antes de criar
-    const userExists = await UserModel.findOne({ email });
-    if (userExists) {
-      return res.status(400).json({ error: "@users/create", message: "This email is already registered." });
-    }
-
-    //  Gerar Hash para encriptografa a senha 
-    const hashedPassword = await bcrypt.hash(password, 10);
-
-    const user = await UserModel.create({
-      name,
-      email,
-      password: hashedPassword, // Salva a senha criptografada
-    });
-
-    // SEGURANÇA: Retorna o objeto criado, mas oculta a senha na resposta
-    const userResponse = { id: user._id, name: user.name, email: user.email };
-    return res.status(201).json(userResponse);
-
-  } catch (err) {
-    return res.status(400).json({
-      error: "@users/create",
-      message: err.message || "Error creating user"
-    });
-  }
-};
-
-// ATUALIZAR USUÁRIO 
+// Atualizar o perfil dinamicamente forçando os validadores de ENUM do Mongoose
 const update = async (req, res) => {
   const { id } = req.params;
-  const { name, email, password } = req.body; // Removido o 'age', pois não existe no Schema
+  const { name, email, password, papel, formacao_acessibilidade, anos_empresa, departamento } = req.body; 
 
   try {
-    const updateData = { name, email };
+    const updateData = {};
+
+    if (name) updateData.name = name;
+    if (email) updateData.email = email;
+    if (papel) updateData.papel = papel;
+    if (formacao_acessibilidade) updateData.formacao_acessibilidade = formacao_acessibilidade;
+    if (anos_empresa !== undefined) updateData.anos_empresa = anos_empresa;
+    if (departamento) updateData.departamento = departamento;
 
     if (password) {
       updateData.password = await bcrypt.hash(password, 10);
     }
 
-    const userUpdated = await UserModel.findByIdAndUpdate(id, updateData, { new: true }).select('-password');
+    const userUpdated = await UserModel.findByIdAndUpdate(
+      id, 
+      updateData, 
+      { new: true, runValidators: true }
+    ).select('-password');
 
     if (!userUpdated) {
       throw new Error();
@@ -92,7 +73,7 @@ const update = async (req, res) => {
   }
 };
 
-// DELETAR USUÁRIO 
+// Remover permanentemente um usuário do banco de dados
 const deleteUser = async (req, res) => {
   const { id } = req.params;
   try {
@@ -110,11 +91,10 @@ const deleteUser = async (req, res) => {
   }
 };
 
-
 module.exports = {
   list,
   getById,
-  create,
+  //create,
   update,
   deleteUser,
 };

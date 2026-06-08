@@ -1,26 +1,55 @@
 const mongoose = require('mongoose');
 
 const TaskSchema = new mongoose.Schema({
-  title: { 
+  titulo: { 
     type: String, 
     required: true 
   },
-  description: { 
+  descricao: { 
     type: String, 
     required: true 
   },
-  status: { 
+  
+  // O enum restringe os valores aceitos, blindando o banco contra erros 
+  // de digitação e garantindo dados limpos para a análise em Python.
+  prioridade: { 
     type: String, 
-    enum: ['pendente', 'em andamento', 'concluída'], 
+    enum: ['baixa', 'media', 'alta'], 
+    default: 'media' 
+  },
+  status_atual: { 
+    type: String, 
+    enum: ['pendente', 'andamento', 'concluida'], 
     default: 'pendente' 
   },
-  user: { 
+   
+  //O tipo Date nativo permite que a equipe de dados calcule prazos, 
+  // gargalos e tempos de entrega de forma matemática (subtraindo datas).
+  data_inicio: { 
+    type: Date 
+  },
+  data_conclusao: { 
+    type: Date 
+  },
+  feedback_conclusao_mentorado: {
+    type: String
+  },
+
+  //Estabelece o relacionamento entre as coleções. Guarda o ID único 
+  // (número do crachá) do usuário para que a tarefa nunca fique órfã.
+  mentorado: { 
     type: mongoose.Schema.Types.ObjectId, 
     ref: 'User',
     required: true 
+  },
+  
+  mentor_responsavel: {
+    type: String,
+    required: true
   }
 }, {
-  timestamps: true // Cria o createdAt e updatedAt 
+  //Cria automaticamente as colunas 'createdAt' e 'updatedAt' na gravação.
+  timestamps: true 
 });
 
 module.exports = mongoose.model('Task', TaskSchema);
