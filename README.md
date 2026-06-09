@@ -39,7 +39,7 @@ segurança, acessibilidade e análise de dados.
 
 ## Arquitetura do Pipeline
 
-![Arquitetura ETL em Batch](assets/arquitetura.png)
+<img width="3200" height="1100" alt="Image" src="https://github.com/user-attachments/assets/9350511e-cc7c-4b2b-89d8-089570fada60" />
 
 ---
 
