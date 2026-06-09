@@ -1,0 +1,83 @@
+<app-page-heading [pageTitle]="'Perfil'"></app-page-heading>
+
+@if (loggedAccount$ | async; as loggedAccount) {
+<mat-card class="account info">
+    <mat-card-header class="info">
+        <img mat-card-avatar mat-card-sm-image [src]="loggedAccount.avatar" alt="">
+    </mat-card-header>
+    <mat-card-content class="info">
+        <h5>{{ loggedAccount.firstName + ' ' + loggedAccount.lastName }}</h5>
+        <p>{{ loggedAccount.city}} {{loggedAccount.state}}</p>
+        <p>{{ loggedAccount.timezone }}</p>
+    </mat-card-content>
+    <mat-divider></mat-divider>
+    <mat-card-actions>
+        <button matButton type="button" class="info">Atualizar avatar</button>
+    </mat-card-actions>
+</mat-card>
+<mat-card class="account form">
+    <mat-card-header class="form">
+        <mat-card-title-group>
+            <mat-card-title>Minhas informações</mat-card-title>
+            <mat-card-subtitle>Edite as informações da sua conta usando o formulário abaixo</mat-card-subtitle>
+        </mat-card-title-group>
+    </mat-card-header>
+    <mat-divider></mat-divider>
+    <mat-card-content class="form">
+        <form>
+            <mat-form-field>
+                <mat-label>Nome completo</mat-label>
+                <input matInput [value]="loggedAccount.firstName + ' ' + loggedAccount.lastName" required>
+            </mat-form-field>
+
+            <mat-form-field>
+                <mat-label>E-mail</mat-label>
+                <input matInput type="email" [value]="loggedAccount.email" required>
+            </mat-form-field>
+
+            <div class="half-width">
+                <mat-form-field floatLabel="always">
+                    <mat-label>Papel</mat-label>
+                    <mat-select placeholder="Mentorado" required>
+                        <mat-option>Mentorado</mat-option>
+                        <mat-option>Mentor</mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                <mat-form-field floatLabel="always">
+                    <mat-label>Departamento</mat-label>
+                    <mat-select placeholder="Tecnologia" required>
+                        <mat-option>Tecnologia</mat-option>
+                        <mat-option>Produto</mat-option>
+                        <mat-option>Marketing</mat-option>
+                        <mat-option>Pessoas e Cultura</mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                <mat-form-field floatLabel="always">
+                    <mat-label>Área de atuação</mat-label>
+                    <mat-select placeholder="Dev Back-end" required>
+                        <mat-option>Dev Back-end</mat-option>
+                        <mat-option>QA</mat-option>
+                        <mat-option>Produto</mat-option>
+                        <mat-option>UX/UIDesigner</mat-option>
+                        <mat-option>Data Engineer</mat-option>
+                        <mat-option>Dev Front-end</mat-option>
+                        <mat-option>Dev Mobile</mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                <mat-form-field>
+                    <mat-label>Anos de empresa</mat-label>
+                    <input matInput type="number" required>
+                </mat-form-field>
+            </div>
+            <mat-checkbox class="post-form">Eu afirmo ter formação em acessibilidade</mat-checkbox>
+        </form>
+    </mat-card-content>
+    <mat-divider></mat-divider>
+    <mat-card-actions class="form">
+        <button matButton="filled" type="button" class="form">Salvar detalhes</button>
+    </mat-card-actions>
+</mat-card>
+}

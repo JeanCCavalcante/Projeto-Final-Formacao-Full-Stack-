@@ -1,0 +1,12 @@
+<header [ngClass]="sidenav.mode === 'side' ? '' : 'opened'">
+    @if (sidenav.mode === 'over') {
+    <button matIconButton (click)="sidenav.toggle()">
+        @if (!sidenav.opened) {
+        <mat-icon svgIcon="ph-light:list"></mat-icon>
+        } @else {
+        <mat-icon svgIcon="ph-light:x"></mat-icon>
+        }
+    </button>
+    }
+    <app-menu></app-menu>
+</header>

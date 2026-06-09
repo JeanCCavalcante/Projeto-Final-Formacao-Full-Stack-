@@ -1,0 +1,19 @@
+header {
+  align-items: center;
+  background-color: white;
+  display: flex;
+  justify-content: flex-end;
+  padding: 0 calc(2 * var(--mat-standard-spacing));
+  min-height: 64px;
+  position: sticky;
+  top: 0;
+  z-index: 2;
+
+  & app-menu {
+    height: 40px;
+  }
+}
+
+.opened {
+  justify-content: space-between !important;
+}

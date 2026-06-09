@@ -1,0 +1,44 @@
+mat-card-header.settings {
+  padding: 32px 24px 16px;
+}
+mat-card-content.settings {
+  display: flex;
+  gap: calc(6 * var(--mat-standard-spacing));
+  padding: 32px 24px;
+
+  &.checkboxes {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+
+    & section.checkboxes {
+      display: flex;
+      flex-direction: column;
+
+      &:first-child {
+        width: 298px;
+      }
+      & > mat-checkbox {
+        margin-left: -11px;
+        white-space: nowrap;
+      }
+    }
+  }
+  & form.password {
+    display: inline-flex;
+    flex-direction: column;
+    gap: calc(3 * var(--mat-standard-spacing));
+    max-width: 600px;
+    width: 100%;
+  }
+  & h5 {
+    font-size: 1.125rem;
+    font-weight: 500;
+    line-height: 1.2;
+    margin: 0 0 var(--mat-standard-spacing) 0;
+  }
+
+  &.password {
+    padding: 32px 24px;
+  }
+}

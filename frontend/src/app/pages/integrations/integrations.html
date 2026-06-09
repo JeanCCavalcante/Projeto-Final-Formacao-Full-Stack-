@@ -1,0 +1,32 @@
+<app-page-heading [pageTitle]="'Integrations'"></app-page-heading>
+
+<app-search-box [placeholder]="'Search integration'"></app-search-box>
+
+<section class="integrations-cards">
+    @if (integrations$ | async; as integrations) {
+    @for (application of integrations; track application) {
+    <mat-card class="integrations integration-card">
+        <mat-card-header>
+            <img mat-card-avatar [src]="application.icon" alt="">
+            <mat-card-title>{{ application.name }}</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+            {{ application.description }}
+        </mat-card-content>
+        <mat-divider></mat-divider>
+        <mat-card-footer>
+            <div class="info">
+                <mat-icon svgIcon="ph-light:clock"></mat-icon>
+                <p>Updated {{ application.updatedAt | date:'mediumDate' }}</p>
+            </div>
+            <div class="info">
+                <mat-icon svgIcon="ph-light:download"></mat-icon>
+                <p>{{ application.installs }} installs</p>
+            </div>
+        </mat-card-footer>
+    </mat-card>
+    }
+    }
+</section>
+
+<mat-paginator [length]="userApplications.length" [pageSize]="6" [hidePageSize]="true"></mat-paginator>

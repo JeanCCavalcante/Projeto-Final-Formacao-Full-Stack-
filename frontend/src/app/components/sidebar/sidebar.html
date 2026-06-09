@@ -1,0 +1,19 @@
+<mat-toolbar class="sidebar">
+    <a routerLink="/overview">Focus</a>
+</mat-toolbar>
+
+<mat-divider class="sidebar"></mat-divider>
+
+<nav>
+    <mat-nav-list>
+        @for (page of pagesLinks; track page) {
+        <a mat-list-item (click)="$event.preventDefault(); activeLink=page.route;"
+            [activated]="activeLink === page.route" [routerLink]="page.route" routerLinkActive="active"
+            #rla="routerLinkActive">
+            <mat-icon matListItemIcon class="sidebar-icon"
+                [svgIcon]="rla.isActive ? page.iconActive : page.icon"></mat-icon>
+            <span matListItemTitle>{{ page.name }}</span>
+        </a>
+        }
+    </mat-nav-list>
+</nav>

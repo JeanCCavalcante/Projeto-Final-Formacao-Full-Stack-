@@ -1,0 +1,12 @@
+.login-footer {
+  display: flex;
+  font-size: 0.875rem;
+  justify-content: center;
+  margin: calc(var(--mat-standard-spacing) * 2);
+
+  & a {
+    color: var(--primary-color);
+    font-weight: 600;
+    text-decoration: none;
+  }
+}

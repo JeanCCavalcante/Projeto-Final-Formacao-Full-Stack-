@@ -1,0 +1,635 @@
+@use '@angular/material' as mat;
+@use 'sass:math';
+
+@import url('https://fonts.googleapis.com/css2?family=Antonio:wght@500&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+
+// -----------------------------------------------------------------------------
+// DESIGN TOKENS (variables)
+// -----------------------------------------------------------------------------
+
+:root {
+  // Spacing
+  --mat-standard-spacing: 8px;
+  --grid-columns: 12;
+  --grid-column-spacing: calc(3 * var(--mat-standard-spacing));
+
+  // Sidenav
+  --mat-sidenav-container-background-color: #211c12;
+  --mat-sidenav-container-text-color: #b3b9c6;
+  --mat-sidenav-container-width: 20dvw;
+
+  // Shadows
+  --box-shadow: 0 5px 22px 0 rgba(0, 0, 0, 0.04), 0 0 0 1px rgba(0, 0, 0, 0.06);
+
+  // Primary color
+  --primary-color: #f57c00;
+}
+
+// Color palette (SCSS variables for easier maintenance)
+$primary-color: #f57c00;
+$faded-primary-color: rgba(54, 42, 33, 0.42);
+$dark-text: #221f18;
+$grey-text: #667085;
+$grey-border: #ebebeb;
+$grey-bg-light: #f9fafb;
+$grey-icon: #b3b9c6;
+$white: #ffffff;
+$orange: #fb9c0c;
+$green: #15b79f;
+$red: #f04438;
+$light-hover: #f5f5f5;
+$selected-bg: #ecebff;
+$divider: #605243;
+
+// -----------------------------------------------------------------------------
+// GLOBAL HELPERS (mixins / functions)
+// -----------------------------------------------------------------------------
+
+// Calculates grid item width based on span and total columns.
+// Uses CSS variables to remain dynamic.
+@mixin grid-width($span) {
+  width: calc(
+    100% * (#{$span} / var(--grid-columns)) - (var(--grid-columns) - #{$span}) *
+      (var(--grid-column-spacing) / var(--grid-columns))
+  ) !important;
+}
+
+// -----------------------------------------------------------------------------
+// GLOBAL STYLES & RESETS
+// -----------------------------------------------------------------------------
+html {
+  height: 100%;
+
+  @include mat.theme(
+    (
+      color: (
+        primary: mat.$azure-palette,
+        tertiary: mat.$blue-palette,
+      ),
+      typography: 'Inter',
+      density: 0,
+    )
+  );
+
+  // Sidenav overrides (light background)
+  @include mat.sidenav-overrides(
+    (
+      container-background-color: $white,
+      content-background-color: $white,
+    )
+  );
+
+  // Menu overrides
+  @include mat.menu-overrides(
+    (
+      container-color: $white,
+      container-shape: 8px,
+      container-elevation-shadow: 0px 3px 14px rgba(0, 0, 0, 0.08),
+      item-label-text-size: 1rem,
+      item-label-text-weight: 400,
+      item-icon-size: 20px,
+      item-label-text-line-height: 24px,
+      item-spacing: 16px,
+      item-with-icon-leading-spacing: 16px,
+      item-with-icon-trailing-spacing: 16px,
+    )
+  );
+
+  // List base overrides (applies to most list-items)
+  @include mat.list-overrides(
+    (
+      active-indicator-color: transparent,
+      list-item-label-text-line-height: 28px,
+      list-item-label-text-size: 0.875rem,
+      list-item-label-text-weight: 500,
+      list-item-label-text-tracking: 0,
+      list-item-supporting-text-tracking: 0,
+      list-item-focus-label-text-color: $white,
+      list-item-one-line-container-height: 40px,
+      list-item-two-line-container-height: 76.1px,
+      list-item-leading-icon-start-space: 16px,
+      list-item-leading-icon-end-space: 8px,
+      list-item-leading-icon-color: $grey-icon,
+      list-item-leading-icon-size: 20px,
+      list-item-supporting-text-color: $grey-text,
+      list-item-supporting-text-line-height: 1.57,
+      list-item-trailing-icon-size: 24px,
+      list-item-leading-avatar-shape: 8px,
+      list-item-leading-avatar-size: 48px,
+    )
+  );
+
+  // Active nav list item overrides
+  mat-nav-list a[mat-list-item].active {
+    @include mat.list-overrides(
+      (
+        list-item-label-text-color: $white,
+        list-item-hover-label-text-color: $white,
+        list-item-hover-leading-icon-color: $white,
+        list-item-leading-icon-color: $white,
+      )
+    );
+  }
+
+  // Special list inside overview card
+  mat-card.overview > mat-card-content > mat-list > mat-list-item > span:first-of-type {
+    @include mat.list-overrides(
+      (
+        list-item-label-text-color: $dark-text,
+        list-item-label-text-size: 1rem,
+        list-item-label-text-line-height: 1.57,
+        list-item-hover-label-text-color: $dark-text,
+      )
+    );
+  }
+
+  // Navigation list (sidenav) overrides
+  nav > mat-nav-list {
+    @include mat.list-overrides(
+      (
+        list-item-label-text-color: $grey-icon,
+        list-item-hover-label-text-color: $grey-icon,
+      )
+    );
+  }
+
+  // Card overrides
+  @include mat.card-overrides(
+    (
+      outlined-container-color: $white,
+      outlined-container-elevation: var(--box-shadow),
+      outlined-container-shape: 20px,
+      outlined-outline-color: $grey-border,
+      outlined-outline-width: 0,
+      subtitle-text-color: $grey-text,
+      subtitle-text-line-height: 1.57,
+      subtitle-text-size: 0.875rem,
+      subtitle-text-tracking: 0,
+      subtitle-text-weight: 400,
+      title-text-line-height: 1.2,
+      title-text-size: 1.125rem,
+      title-text-weight: 500,
+    )
+  );
+
+  // Form field overrides
+  @include mat.form-field-overrides(
+    (
+      container-text-tracking: 0,
+      leading-icon-color: rgba(0, 0, 0, 0.54),
+      outlined-container-shape: 8px,
+      outlined-focus-label-text-color: $primary-color,
+      outlined-focus-outline-color: $primary-color,
+      outlined-input-text-placeholder-color: $grey-text,
+      outlined-hover-label-text-color: $grey-text,
+      outlined-label-text-color: $grey-text,
+      outlined-outline-color: $grey-icon,
+    )
+  );
+
+  // Select overrides
+  @include mat.select-overrides(
+    (
+      panel-background-color: $white,
+      trigger-text-tracking: 0,
+    )
+  );
+
+  // Checkbox overrides
+  @include mat.checkbox-overrides(
+    (
+      label-text-color: $dark-text,
+      label-text-line-height: 1.5,
+      label-text-size: 16px,
+      label-text-tracking: 0,
+      selected-focus-icon-color: $primary-color,
+      selected-hover-icon-color: $primary-color,
+      selected-icon-color: $primary-color,
+      selected-pressed-icon-color: $primary-color,
+      state-layer-size: 42px,
+    )
+  );
+
+  // Paginator icon button overrides (global)
+  mat-paginator {
+    @include mat.icon-button-overrides(
+      (
+        icon-size: 18px,
+        state-layer-size: 26px,
+        touch-target-size: 26px,
+      )
+    );
+  }
+
+  // Button overrides
+  @include mat.button-overrides(
+    (
+      filled-container-color: $primary-color,
+      filled-container-height: 40.5px,
+      filled-container-shape: 12px,
+      filled-horizontal-padding: 20px,
+      filled-label-text-tracking: 0,
+      text-container-height: 42.5px,
+      text-container-shape: 12px,
+      text-label-text-color: $primary-color,
+      text-hover-state-layer-opacity: 0.04,
+      text-pressed-state-layer-opacity: 0.04,
+      text-ripple-color: color-mix(
+          in srgb,
+          $primary-color calc(var(--mat-sys-pressed-state-layer-opacity) * 100%),
+          transparent
+        ),
+      text-state-layer-color: $dark-text,
+    )
+  );
+
+  // Paginator text overrides
+  @include mat.paginator-overrides(
+    (
+      container-background-color: transparent,
+      container-text-line-height: 1.57,
+      container-text-size: 0.875rem,
+      container-text-tracking: 0,
+    )
+  );
+}
+
+// -----------------------------------------------------------------------------
+// COMPONENT-SPECIFIC OVERRIDES (outside html for global reach)
+// -----------------------------------------------------------------------------
+@include mat.table-overrides(
+  (
+    background-color: $white,
+    header-container-height: 100%,
+    header-headline-color: $grey-text,
+    header-headline-line-height: 1,
+    header-headline-tracking: 0,
+    row-item-label-text-line-height: 1,
+    row-item-label-text-tracking: 0,
+    row-item-outline-color: $grey-border,
+  )
+);
+
+@include mat.progress-bar-overrides(
+  (
+    active-indicator-color: $primary-color,
+    track-color: #ffe9c0,
+  )
+);
+
+// Chips base overrides
+@include mat.chips-overrides(
+  (
+    container-shape-radius: 16px,
+    container-height: 24px,
+    label-text-size: 0.8125rem,
+    outline-width: 0,
+    label-text-color: $white,
+    label-text-weight: 400,
+  )
+);
+
+.delivered {
+  @include mat.chips-overrides(
+    (
+      elevated-container-color: $green,
+    )
+  );
+}
+.pending {
+  @include mat.chips-overrides(
+    (
+      elevated-container-color: $orange,
+    )
+  );
+}
+.refunded {
+  @include mat.chips-overrides(
+    (
+      elevated-container-color: $red,
+    )
+  );
+}
+
+// -----------------------------------------------------------------------------
+// GLOBAL HTML / BODY STYLES
+// -----------------------------------------------------------------------------
+body {
+  background-color: $white;
+  color: $dark-text;
+  color-scheme: light;
+  font: var(--mat-sys-body-medium);
+  font-optical-sizing: none;
+  font-size: 1rem;
+  font-weight: 400;
+  height: 100%;
+  letter-spacing: 0;
+  line-height: 1.5;
+  margin: 0;
+}
+
+main {
+  box-sizing: border-box;
+  height: fit-content;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 64px calc(3 * var(--mat-standard-spacing));
+  width: 100%;
+}
+
+p {
+  margin: 0;
+}
+
+// -----------------------------------------------------------------------------
+// LAYOUT & PAGE COMPONENTS
+// -----------------------------------------------------------------------------
+// Common flex layout for multiple page components
+app-account,
+app-customers,
+app-integrations,
+app-overview,
+app-settings {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: calc(var(--mat-standard-spacing) * 3);
+  min-width: 0;
+}
+
+app-page-heading {
+  display: flex;
+  flex-direction: column;
+  gap: var(--mat-standard-spacing);
+  min-width: 0;
+  width: 100%;
+
+  & > header > h4.page-heading {
+    color: $dark-text;
+    display: block;
+    font-size: 32px;
+    font-weight: 500;
+    line-height: 1.2;
+    margin: 0;
+  }
+}
+
+app-search-box,
+mat-card {
+  width: 100%;
+}
+
+// -----------------------------------------------------------------------------
+// SIDENAV & DIVIDER
+// -----------------------------------------------------------------------------
+mat-sidenav-container.dashboard-container {
+  height: 100%;
+
+  mat-sidenav {
+    border-radius: 0px;
+    width: var(--mat-sidenav-container-width);
+  }
+
+  mat-divider.header {
+    position: sticky;
+    top: 64px;
+    z-index: 2;
+  }
+}
+
+mat-divider {
+  border-color: #dcdfe4 !important;
+}
+
+// -----------------------------------------------------------------------------
+// CARD ACTIONS (button containers)
+// -----------------------------------------------------------------------------
+mat-card-actions:has(> button[matButton='filled']),
+mat-card-actions:has(> button[matButton].overview-actions) {
+  align-items: flex-end;
+  display: flex;
+  flex-direction: column;
+}
+
+// Search box specific form field override
+mat-card.search-box mat-form-field {
+  @include mat.form-field-overrides(
+    (
+      outlined-input-text-placeholder-color: $faded-primary-color,
+    )
+  );
+}
+
+// -----------------------------------------------------------------------------
+// BUTTON OVERRIDES FOR SPECIFIC CONTEXTS
+// -----------------------------------------------------------------------------
+section.complex-buttons > button[matButton],
+button[matButton].overview-actions {
+  @include mat.button-overrides(
+    (
+      text-label-text-color: $dark-text,
+    )
+  );
+}
+
+button[matButton].overview-actions {
+  display: inline-flex;
+  flex-direction: row-reverse;
+
+  @include mat.button-overrides(
+    (
+      text-container-height: 36.75px,
+      text-icon-spacing: -2px,
+      text-icon-offset: var(--mat-standard-spacing),
+      text-with-icon-horizontal-padding: 12px,
+      text-label-text-size: 0.8125rem,
+    )
+  );
+}
+
+// Integrations card title size
+section.integrations-cards > mat-card.integrations.integration-card {
+  @include mat.card-overrides(
+    (
+      title-text-size: 1.5rem,
+    )
+  );
+}
+
+// -----------------------------------------------------------------------------
+// CUSTOMERS TABLE EXTRA OVERRIDES
+// -----------------------------------------------------------------------------
+app-customers {
+  table[mat-table] {
+    @include mat.checkbox-overrides(
+      (
+        unselected-focus-icon-color: $grey-text,
+        unselected-hover-icon-color: $grey-text,
+        unselected-icon-color: $grey-text,
+      )
+    );
+  }
+
+  mat-paginator {
+    @include mat.icon-button-overrides(
+      (
+        icon-size: 24px,
+      )
+    );
+  }
+}
+
+// -----------------------------------------------------------------------------
+// CARD HEADER / CONTENT PADDING
+// -----------------------------------------------------------------------------
+mat-card > mat-card-header {
+  padding: 32px 24px 16px !important;
+
+  mat-card-title-group {
+    align-items: center;
+  }
+}
+
+mat-card > mat-card-content:not(> mat-list),
+mat-card > mat-card-content:not(> table) {
+  padding: 32px 24px !important;
+}
+
+// Overview card content that contains list or table
+mat-card.overview > mat-card-content:has(> mat-list),
+mat-card.overview > mat-card-content:has(> table) {
+  padding: 0;
+  overflow: auto;
+
+  > mat-list {
+    padding: 0px;
+  }
+
+  > table {
+    th[mat-header-cell]:first-child,
+    th[mat-header-cell]:last-child {
+      border-radius: 0;
+    }
+  }
+}
+
+mat-card.form {
+  & mat-card-content {
+    display: flex;
+    flex-direction: column;
+    gap: calc(3 * var(--mat-standard-spacing));
+    padding: 32px 24px;
+  }
+
+  & form.form-fields {
+    display: inline-flex;
+    flex-direction: column;
+    width: 100%;
+  }
+
+  & mat-card-actions > button[data-full-width-button] {
+    width: 100%;
+  }
+}
+
+// -----------------------------------------------------------------------------
+// DATA TABLE STYLES
+// -----------------------------------------------------------------------------
+table[mat-table] {
+  background-color: transparent;
+  border-bottom: thin solid $grey-border;
+  border-collapse: collapse;
+  min-width: 800px;
+  width: 100%;
+
+  th[mat-header-cell].select,
+  td[mat-cell].select {
+    padding: 0 0 0 24px;
+  }
+
+  th[mat-header-cell] {
+    background-color: $grey-bg-light;
+    padding: 16px;
+
+    &:first-child {
+      border-radius: 20px 0 0 0;
+    }
+    &:last-child {
+      border-radius: 0 20px 0 0;
+    }
+  }
+
+  td[mat-cell] {
+    padding: 16px;
+
+    &:last-child {
+      white-space: nowrap;
+    }
+
+    > div.complex-cell {
+      align-items: center;
+      display: flex;
+      font-weight: 500;
+      gap: calc(2 * var(--mat-standard-spacing));
+
+      > img[mat-card-avatar] {
+        margin-bottom: 0;
+      }
+    }
+  }
+
+  tr[mat-row] {
+    &:active {
+      background-color: $selected-bg;
+    }
+    &:hover {
+      background-color: $light-hover;
+    }
+  }
+}
+
+// -----------------------------------------------------------------------------
+// OVERVIEW PAGE GRID (with responsive mixins)
+// -----------------------------------------------------------------------------
+app-overview {
+  display: flex;
+  flex-wrap: wrap;
+
+  // Default: full width on smallest screens
+  > mat-card.overview-card {
+    @include grid-width(12);
+  }
+}
+
+// Medium screens (≥600px)
+@media (min-width: 600px) {
+  app-overview > mat-card.overview-card:nth-child(-n + 4) {
+    @include grid-width(6);
+  }
+}
+
+// Large screens (≥1200px) – complex grid
+@media (min-width: 1200px) {
+  app-overview {
+    & > mat-card.overview-card:nth-child(-n + 4) {
+      @include grid-width(3);
+    }
+
+    & > mat-card.overview:nth-child(5),
+    & > mat-card.overview:nth-child(8) {
+      @include grid-width(8);
+    }
+
+    & > mat-card.overview:nth-child(6),
+    & > mat-card.overview:nth-child(7) {
+      @include grid-width(4);
+    }
+  }
+}
+
+// Extra large (≥1440px) – constrain main width
+@media (min-width: 1440px) {
+  main {
+    max-width: 1440px;
+  }
+}
