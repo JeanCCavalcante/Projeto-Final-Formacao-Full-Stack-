@@ -115,8 +115,20 @@ no VS Code)
 2. Instale as bibliotecas: pip install pandas pymongo matplotlib python-dotenv
 3. Execute o script: python analysis.py
 
+---
 
-```
+## Pré-requisitos
+
+| Camada | Tecnologia | Versão | Por que usamos |
+|--------|------------|--------|----------------|
+| Core | Python | 3.14+ | Linguagem principal para construir o ETL e o dashboard. |
+| Core | Streamlit | 1.44+ | Cria o dashboard interativo rapidamente, sem precisar de front-end. |
+| Biblioteca Python | pandas | 2.2+ | Faz limpeza, transformação, agregações e análise tabular dos dados. |
+| Biblioteca Python | pyarrow | 19.0+ | Leitura e escrita de Parquet com boa performance em formato colunar. |
+| Biblioteca Python | ipykernel | 7.2+ | Conecta o ambiente Python ao Jupyter Notebook. |
+| Ferramenta | Jupyter Notebook | - | Desenvolvimento e validação passo a passo do pipeline ETL. |
+| Ferramenta | uv | - | Gerencia dependências e execução do projeto de forma rápida e reprodutível. |
+
 
 ---
 
