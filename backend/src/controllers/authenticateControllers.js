@@ -6,7 +6,7 @@ module.exports = {
   // Criar um novo usuário validando os campos obrigatórios e enums do Schema
   async register(req, res) {
     try {
-      const { name, email, password, papel, formacao_acessibilidade, anos_empresa, departamento } = req.body;
+      const { name, email, password, papel, formacao_acessibilidade, anos_empresa, departamento, area_atuacao } = req.body;
 
       const userExists = await User.findOne({ email });
       if (userExists) {
@@ -22,7 +22,8 @@ module.exports = {
         papel,
         formacao_acessibilidade,
         anos_empresa,
-        departamento
+        departamento,
+        area_atuacao
       });
 
       return res.status(201).json({
