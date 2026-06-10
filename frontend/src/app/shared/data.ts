@@ -1,14 +1,10 @@
-export interface UserInfo {
-  id: number;
-  createdAt: string;
-  firstName: string;
-  lastName: string;
-  avatar: string;
-  city: string;
-  state: string;
-  timezone: string;
-  email: string;
-  phoneNumber: string;
+export interface AuthResponse {
+  token: string;
+  user: {
+    name: string;
+    email: string;
+    papel: 'mentorado' | 'mentor';
+  };
 }
 
 export interface NotificationSetting {

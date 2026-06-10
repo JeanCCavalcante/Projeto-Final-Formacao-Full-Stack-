@@ -4,7 +4,7 @@ import { SubscriptSizing } from '@angular/material/form-field';
 import { Observable } from 'rxjs';
 
 import { UserInfo, Data } from '../../shared/data';
-import { UsersService } from '../../services/users';
+import { UsersService } from '../../services/auth';
 
 @Component({
   selector: 'app-account',
