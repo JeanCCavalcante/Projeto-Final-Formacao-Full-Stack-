@@ -18,7 +18,7 @@ module.exports = {
     try {
       const { titulo, descricao, prioridade, area_atuacao, mentor_responsavel, data_inicio } = req.body;
       const userId = req.user.id;
-      const status_atual = 'pendente';
+      let status_atual = 'pendente';
 
       const newTask = await Task.create({
         titulo,
