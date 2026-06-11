@@ -132,9 +132,9 @@ no VS Code)
 ## A Squad
 
 1. Dev: [Ronny] - Lead Back-end & Segurança
-2. Dev: [Laura] - Back-end & Banco de Dados
+2. Dev: [Laura] - Lead Data & Integração MongoDB
 3. Dev: [Jessicah] - Lead Front-end & UI/UX 
-4. Dev: [Milenna] - Front-end & Integração de API 
-5. Dev: [Jean] - Data Science & Integração Python 
+4. Dev: [Milenna] - Back-end (CRUD) & API 
+5. Dev: [Jean] - Data Science 
 
 ---
