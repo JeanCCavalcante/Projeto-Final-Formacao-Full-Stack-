@@ -21,7 +21,7 @@ def connect_to_mongo():
     collection_users = db["users"]
     collection_tasks = db["tasks"]
     print("Conexão estabelecida com sucesso!")
-    print("a chave do armário é:", chave_mongo)
+    #print("a chave do armário é:", chave_mongo)
     return collection_users, collection_tasks
 
 if __name__ == "__main__":
