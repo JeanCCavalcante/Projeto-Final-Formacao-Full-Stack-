@@ -60,7 +60,7 @@ module.exports = {
 
       return res.json({
         token,
-        user: { name: user.name, email: user.email, papel: user.papel }
+        user: { user_id: user._id, name: user.name, email: user.email, papel: user.papel }
       });
 
     } catch (error) {
