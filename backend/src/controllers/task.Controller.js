@@ -6,7 +6,7 @@ module.exports = {
   async index(req, res) {
     try {
       const userId = req.user.id; 
-      const tasks = await Task.find({ mentorado: userId }); 
+      const tasks = await Task.find({ user_id: userId }); 
       return res.json(tasks);
     } catch (error) {
       return res.status(500).json({ error: "Erro ao listar as tarefas." });
@@ -16,7 +16,7 @@ module.exports = {
   // Cadastrar uma nova tarefa e registrar o estado inicial de 'pendente' no histórico
   async store(req, res) {
     try {
-      const { titulo, descricao, prioridade, area_atuacao, mentor_responsavel, data_inicio } = req.body;
+      const { titulo, descricao, prioridade, area_atuacao, mentor_responsavel, data_inicio, mentorado } = req.body;
       const userId = req.user.id;
       let status_atual = 'pendente';
 
@@ -28,7 +28,8 @@ module.exports = {
         area_atuacao,
         mentor_responsavel,
         data_inicio,
-        mentorado: userId 
+        mentorado,
+        user_id: userId 
       });
 
       // Registra o nascimento da tarefa na história puro, sem campos adicionais
@@ -59,7 +60,7 @@ module.exports = {
         return res.status(404).json({ error: "Tarefa não encontrada." });
       }
 
-      if (task.mentorado.toString() !== userId) {
+      if (task.user_id.toString() !== userId) {
         return res.status(403).json({ error: "Acesso negado." });
       }
 
@@ -110,7 +111,7 @@ module.exports = {
         return res.status(404).json({ error: "Tarefa não encontrada." });
       }
 
-      if (task.mentorado.toString() !== userId) {
+      if (task.user_id.toString() !== userId) {
         return res.status(403).json({ error: "Acesso negado." });
       }
 

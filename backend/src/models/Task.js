@@ -35,11 +35,17 @@ const TaskSchema = new mongoose.Schema({
     type: String
   },
 
-  //Estabelece o relacionamento entre as coleções. Guarda o ID único 
-  // (número do crachá) do usuário para que a tarefa nunca fique órfã.
-  mentorado: { 
+  /*mentorado: { 
     type: mongoose.Schema.Types.ObjectId, 
     ref: 'User',
+    required: true 
+  },*/
+
+  mentorado: { type: String },
+
+  user_id: { 
+    type: mongoose.Schema.Types.ObjectId, 
+    ref: 'User', 
     required: true 
   },
   
