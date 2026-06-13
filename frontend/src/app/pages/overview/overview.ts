@@ -2,8 +2,10 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { map, Observable, Subject, takeUntil } from 'rxjs';
 
-import { LatestOrder, LatestProduct, OverviewInfo, SalesInfo } from '../../shared/data';
+import { LatestOrder, LatestProduct, OverviewInfo, SalesInfo } from '../../models/users';
 import { OverviewService } from '../../services/overview';
+import { Login } from '../../auth/login/login';
+import { AuthService } from '../../services/auth';
 
 @Component({
   selector: 'app-overview',
@@ -15,6 +17,8 @@ export class Overview implements OnInit, OnDestroy {
   private readonly destroy$ = new Subject<void>();
   latestOrders$: Observable<LatestOrder[]> | null = null;
   latestProducts$: Observable<LatestProduct[]> | null = null;
+
+  isLoggedIn: boolean = false;
 
   overviewInfo: OverviewInfo = {
     budget: {
@@ -69,7 +73,10 @@ export class Overview implements OnInit, OnDestroy {
   displayedColumns: Array<string> = [];
   headers: Array<string> = this.columns.map((column) => column.columnDef);
 
-  constructor(private readonly overviewService: OverviewService) {}
+  constructor(
+    private readonly overviewService: OverviewService,
+    private readonly authService: AuthService
+  ) {}
 
   get budget() {
     return this.overviewInfo.budget;
@@ -121,14 +128,14 @@ export class Overview implements OnInit, OnDestroy {
           };
           this.budgetPercent = this.percentChange(
             this.overviewInfo.budget.current,
-            this.overviewInfo.budget.lastMonth,
+            this.overviewInfo.budget.lastMonth
           );
           this.totalCustomersPercent = this.percentChange(
             this.overviewInfo.totalCustomers.current,
-            this.overviewInfo.totalCustomers.lastMonth,
+            this.overviewInfo.totalCustomers.lastMonth
           );
         }),
-        takeUntil(this.destroy$),
+        takeUntil(this.destroy$)
       )
       .subscribe();
 
@@ -136,7 +143,7 @@ export class Overview implements OnInit, OnDestroy {
       .fetchOrders(6)
       .pipe(
         map((orders: LatestOrder[]) => (this.dataSource.data = orders)),
-        takeUntil(this.destroy$),
+        takeUntil(this.destroy$)
       )
       .subscribe();
 
@@ -149,7 +156,7 @@ export class Overview implements OnInit, OnDestroy {
             lastYear: sales.lastYear.map((last) => Math.floor(last)),
           };
         }),
-        takeUntil(this.destroy$),
+        takeUntil(this.destroy$)
       )
       .subscribe();
 

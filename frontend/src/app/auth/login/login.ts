@@ -1,7 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth';
+import { MatDialogRef } from '@angular/material/dialog';
+import { Register } from '../register/register';
 
 @Component({
   selector: 'app-login',
@@ -10,12 +12,14 @@ import { AuthService } from '../../services/auth';
   styleUrl: './login.css',
 })
 export class Login {
+  private readonly dialogRef = inject(MatDialogRef<Login>);
+
   protected loginForm: FormGroup;
 
   constructor(
     private readonly formBuilder: FormBuilder,
     private readonly authService: AuthService,
-    private readonly router: Router,
+    private readonly router: Router
   ) {
     this.loginForm = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email]],
@@ -25,9 +29,17 @@ export class Login {
 
   onLogin(form: FormGroup): void {
     if (form.valid) {
-      this.authService.login(form.value.email, form.value.password).subscribe(() => {
-        this.router.navigateByUrl('/overview');
+      this.authService.login(form.value.email, form.value.password).subscribe({
+        next: () => {
+          this.router.navigateByUrl('/overview');
+          this.dialogRef.close();
+        },
+        error: (error) => console.error('Login failed'),
       });
     }
+  }
+
+  switchAuth(): void {
+    this.authService.openAuthModal(Register, this.dialogRef);
   }
 }

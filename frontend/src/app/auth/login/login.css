@@ -1,12 +1,7 @@
-.login-footer {
+::ng-deep .mat-mdc-dialog-content {
   display: flex;
-  font-size: 0.875rem;
+  flex-direction: column;
   justify-content: center;
-  margin: calc(var(--mat-standard-spacing) * 2);
-
-  & a {
-    color: var(--primary-color);
-    font-weight: 600;
-    text-decoration: none;
-  }
+  max-height: fit-content;
+  overflow: hidden;
 }

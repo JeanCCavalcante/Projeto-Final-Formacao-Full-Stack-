@@ -1,10 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import { SubscriptSizing } from '@angular/material/form-field';
-import { Observable } from 'rxjs';
+import { Component, inject } from '@angular/core';
 
-import { UserInfo, Data } from '../../shared/data';
-import { UsersService } from '../../services/auth';
+import { UserRegister } from '../../models/users';
+import { UsersService } from '../../services/users';
+import { AuthStateService } from '../../services/auth-state';
 
 @Component({
   selector: 'app-account',
@@ -12,28 +10,18 @@ import { UsersService } from '../../services/auth';
   templateUrl: './account.html',
   styleUrl: './account.css',
 })
-export class Account implements OnInit {
-  accountForm!: FormGroup;
-
-  floatLabel = new FormControl('auto');
-  subscriptSizing: SubscriptSizing | null = null;
-
-  userId: number = 0;
-  loggedAccount$: Observable<UserInfo> | null = null;
-
-  states: Array<string> = [];
-  selectedValue: string = '';
+export class Account {
+  protected loggedUserProfile = inject(AuthStateService).loggedUser;
 
   constructor(
-    private readonly data: Data,
-    private readonly usersService: UsersService,
-    private readonly formBuilder: FormBuilder,
-  ) {
-    this.userId = this.data.id;
-  }
+    private readonly authStateService: AuthStateService,
+    private readonly usersService: UsersService
+  ) {}
 
-  ngOnInit(): void {
-    this.loggedAccount$ = this.usersService.fetchLoggedUser(this.userId);
-    this.states = this.data.states;
+  updateLoggedUserProfile(updatedData: UserRegister): void {
+    const userId = this.authStateService.loggedUser()?._id;
+    this.usersService.updateUserData(userId, updatedData).subscribe({
+      error: (error) => console.error(error.error),
+    });
   }
 }

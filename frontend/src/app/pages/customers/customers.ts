@@ -4,8 +4,10 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { Observable, Subscription } from 'rxjs';
 import { MatPaginator } from '@angular/material/paginator';
 
-import { CustomersInfo } from '../../shared/data';
+import { CustomersInfo } from '../../models/users';
 import { CustomersService } from '../../services/customers';
+import { Login } from '../../auth/login/login';
+import { AuthService } from '../../services/auth';
 @Component({
   selector: 'app-customers',
   standalone: false,
@@ -65,7 +67,10 @@ export class Customers implements OnInit, OnDestroy, AfterViewInit {
     .map((column) => column.columnDef)
     .filter((header) => header !== 'id' && header !== 'avatar');
 
-  constructor(private readonly customersService: CustomersService) {
+  constructor(
+    private readonly customersService: CustomersService,
+    private readonly authService: AuthService
+  ) {
     this.customers$ = this.customersService.fetchCustomers();
   }
 

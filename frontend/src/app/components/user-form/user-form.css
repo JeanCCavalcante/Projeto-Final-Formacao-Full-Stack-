@@ -1,0 +1,21 @@
+mat-card-content,
+.half-width {
+  display: grid;
+  gap: calc(var(--mat-standard-spacing) * 3);
+
+  mat-form-field {
+    height: fit-content;
+  }
+}
+
+.half-width {
+  grid-template-columns: repeat(2, auto);
+}
+
+mat-card-content > .post-form {
+  margin: -16px auto -24px !important;
+
+  ::ng-deep label {
+    font-weight: 600;
+  }
+}

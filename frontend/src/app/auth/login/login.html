@@ -1,26 +1,28 @@
-<mat-card class="form">
-    <mat-card-header>
-        <mat-card-title>Bem vindo de volta</mat-card-title>
-        <mat-card-subtitle>Preencha suas credenciais abaixo para acessar sua conta</mat-card-subtitle>
-    </mat-card-header>
-    <mat-divider></mat-divider>
-    <form [formGroup]="loginForm" (submit)="onLogin(loginForm)" class="form-fields">
-        <mat-card-content>
-            <mat-form-field>
-                <mat-label>E-mail</mat-label>
-                <input matInput type="email" formControlName="email" autocomplete="off" />
-            </mat-form-field>
-            <mat-form-field>
-                <mat-label>Senha</mat-label>
-                <input matInput type="password" formControlName="password" autocomplete="off" />
-            </mat-form-field>
-        </mat-card-content>
+<mat-dialog-content>
+    <mat-card class="form">
+        <mat-card-header>
+            <mat-card-title>Bem vindo de volta</mat-card-title>
+            <mat-card-subtitle>Preencha suas credenciais abaixo para acessar sua conta</mat-card-subtitle>
+        </mat-card-header>
         <mat-divider></mat-divider>
-        <mat-card-actions>
-            <button matButton="filled" type="submit" [disabled]="!loginForm.valid" data-full-width-button>
-                Entrar
-            </button>
-        </mat-card-actions>
-    </form>
-</mat-card>
-<div class="login-footer"><span>Não tem uma conta? <a href="/">Cadastre-se</a></span></div>
+        <form [formGroup]="loginForm" (submit)="onLogin(loginForm)" class="form-fields">
+            <mat-card-content>
+                <mat-form-field>
+                    <mat-label>E-mail</mat-label>
+                    <input matInput type="email" formControlName="email" autocomplete="off" />
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-label>Senha</mat-label>
+                    <input matInput type="password" formControlName="password" autocomplete="off" />
+                </mat-form-field>
+            </mat-card-content>
+            <mat-divider></mat-divider>
+            <mat-card-actions>
+                <button matButton="filled" type="submit" [disabled]="!loginForm.valid" data-full-width-button>
+                    Entrar
+                </button>
+            </mat-card-actions>
+        </form>
+    </mat-card>
+    <div class="auth-footer"><span>Não tem uma conta? <a (click)="switchAuth()">Cadastre-se</a></span></div>
+</mat-dialog-content>

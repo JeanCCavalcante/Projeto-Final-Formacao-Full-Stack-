@@ -1,9 +1,9 @@
-@if (loggedAccount$ | async; as loggedAccount) {
-<img [src]="loggedAccount.avatar" alt="" [matMenuTriggerFor]="menu" class="menu-avatar" (click)="onClickingAvatar()">
+@if (loggedUser(); as loggedUser) {
+<img [src]="" alt="" [matMenuTriggerFor]="menu" class="menu-avatar" (click)="onClickingAvatar()">
 <mat-menu class="user-menu" #menu="matMenu">
     <hgroup>
-        <h6 class="user-name">{{ loggedAccount.firstName }} {{ loggedAccount.lastName }}</h6>
-        <p class="user-email">{{ loggedAccount.email }}</p>
+        <h6 class="user-name">{{ loggedUser.name }}</h6>
+        <p class="user-email">{{ loggedUser.role }}</p>
     </hgroup>
     <mat-divider></mat-divider>
     <button mat-menu-item type="button" routerLink="/settings" class="menu-button">

@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 
-import { OverviewInfo, SalesInfo, LatestOrder, LatestProduct } from '../shared/data';
+import { OverviewInfo, SalesInfo, LatestOrder, LatestProduct } from '../models/users';
 
 @Injectable({
   providedIn: 'root',

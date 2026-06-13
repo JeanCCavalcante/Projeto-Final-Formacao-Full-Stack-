@@ -13,7 +13,7 @@ import {
   ChartComponent,
 } from 'ng-apexcharts';
 
-import { SalesInfo } from '../../../../shared/data';
+import { SalesInfo } from '../../../../models/users';
 
 export type ChartOptions = {
   series: ApexAxisChartSeries;

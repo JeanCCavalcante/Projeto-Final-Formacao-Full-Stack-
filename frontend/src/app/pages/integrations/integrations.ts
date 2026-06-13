@@ -3,8 +3,9 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { forkJoin, map, Observable, Subject, takeUntil } from 'rxjs';
 
-import { Application, Data } from '../../shared/data';
+import { Application } from '../../models/users';
 import { IntegrationsService } from '../../services/integrations';
+import { AuthService } from '../../services/auth';
 
 @Component({
   selector: 'app-integrations',
@@ -23,11 +24,9 @@ export class Integrations implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild(MatPaginator) paginator: MatPaginator | null = null;
 
   constructor(
-    private readonly data: Data,
     private readonly integrationsService: IntegrationsService,
-  ) {
-    this.userId = this.data.id;
-  }
+    private readonly authService: AuthService
+  ) {}
 
   ngOnInit(): void {
     forkJoin([
@@ -38,10 +37,10 @@ export class Integrations implements OnInit, OnDestroy, AfterViewInit {
         map(([integrations, ids]) => {
           this.userApplications = ids;
           this.dataSource.data = integrations.filter((integration) =>
-            ids.includes(+integration.id),
+            ids.includes(+integration.id)
           );
         }),
-        takeUntil(this.destroy$),
+        takeUntil(this.destroy$)
       )
       .subscribe();
     this.integrations$ = this.dataSource.connect();

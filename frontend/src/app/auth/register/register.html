@@ -1,66 +1,12 @@
-<mat-card class="form">
-    <mat-card-header>
-        <mat-card-title>Crie sua conta</mat-card-title>
-        <mat-card-subtitle>Preencha o formulário abaixo para criar sua conta</mat-card-subtitle>
-    </mat-card-header>
-    <mat-divider></mat-divider>
-    <form [formGroup]="registerForm" (submit)="onRegister(registerForm)" class="form-fields">
-        <mat-card-content>
-            <mat-form-field>
-                <mat-label>Nome completo</mat-label>
-                <input matInput type="text" formControlName="name" autocomplete="off" />
-            </mat-form-field>
-            <mat-form-field>
-                <mat-label>E-mail</mat-label>
-                <input matInput type="email" formControlName="email" autocomplete="off" />
-            </mat-form-field>
-            <mat-form-field>
-                <mat-label>Senha</mat-label>
-                <input matInput type="password" formControlName="password" autocomplete="off" />
-            </mat-form-field>
-            <mat-form-field>
-                <mat-label>Confirme sua senha</mat-label>
-                <input matInput type="password" formControlName="passwordConfirmation" autocomplete="off" />
-            </mat-form-field>
-            <div class="half-width">
-                <mat-form-field floatLabel="always">
-                    <mat-label>Papel</mat-label>
-                    <mat-select formControlName="role" placeholder="Mentorado" required>
-                        @for (role of registerSelectOptions.role; track role) {
-                        <mat-option [value]="role">{{ role }}</mat-option> }
-                    </mat-select>
-                </mat-form-field>
-
-                <mat-form-field floatLabel="always">
-                    <mat-label>Departamento</mat-label>
-                    <mat-select formControlName="department" required>
-                        @for (department of registerSelectOptions.department; track department) {
-                        <mat-option [value]="department">{{ department }}</mat-option>
-                        }
-                    </mat-select>
-                </mat-form-field>
-
-                <mat-form-field floatLabel="always">
-                    <mat-label>Área de atuação</mat-label>
-                    <mat-select formControlName="area" required>
-                        @for (area of registerSelectOptions.area; track area) {
-                        <mat-option [value]="area">{{ area }}</mat-option> }
-                    </mat-select>
-                </mat-form-field>
-
-                <mat-form-field>
-                    <mat-label>Anos de empresa</mat-label>
-                    <input formControlName="companyYears" matInput type="number" required>
-                </mat-form-field>
-            </div>
-            <mat-checkbox formControlName="acessibilityFormation" class="post-form">Eu afirmo ter formação em
-                acessibilidade</mat-checkbox>
-        </mat-card-content>
+<mat-dialog-content>
+    <mat-card class="form">
+        <mat-card-header>
+            <mat-card-title>Crie sua conta</mat-card-title>
+            <mat-card-subtitle>Preencha o formulário abaixo para criar sua conta</mat-card-subtitle>
+        </mat-card-header>
         <mat-divider></mat-divider>
-        <mat-card-actions>
-            <button matButton="filled" type="submit" [disabled]="!registerForm.valid" data-full-width-button>
-                Cadastrar
-            </button>
-        </mat-card-actions>
-    </form>
-</mat-card>
+        <app-user-form [showPasswordField]="true" submitButtonLabel="Cadastrar" [fullWidthButton]="true"
+            (formSubmit)="onRegister($event)"></app-user-form>
+    </mat-card>
+    <div class="auth-footer"><span>Já possui uma conta? <a (click)="switchAuth()">Faça o login</a></span></div>
+</mat-dialog-content>

@@ -9,6 +9,7 @@ import { RouterOutlet } from '@angular/router';
 import { NgApexchartsModule } from 'ng-apexcharts';
 import { NgxPhosphorIconsModule } from 'ngx-phosphor-icons';
 import { MaterialModule } from '../material-module';
+import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 
 import { App } from './app';
 import { AppRoutingModule } from './app-routing-module';
@@ -24,9 +25,9 @@ import { BarChart } from './pages/overview/charts/bar-chart/bar-chart';
 import { DonutChart } from './pages/overview/charts/donut-chart/donut-chart';
 import { Overview } from './pages/overview/overview';
 import { Settings } from './pages/settings/settings';
-import { Data } from './shared/data';
 import { Login } from './auth/login/login';
 import { Register } from './auth/register/register';
+import { UserForm } from './components/user-form/user-form';
 
 @NgModule({
   declarations: [
@@ -45,6 +46,7 @@ import { Register } from './auth/register/register';
     DonutChart,
     Login,
     Register,
+    UserForm,
   ],
   imports: [
     AppRoutingModule,
@@ -55,11 +57,11 @@ import { Register } from './auth/register/register';
     NgxPhosphorIconsModule,
     ReactiveFormsModule,
     RouterOutlet,
+    NgxSkeletonLoaderModule,
   ],
   providers: [
     provideBrowserGlobalErrorListeners(),
     provideHttpClient(),
-    Data,
     {
       provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
       useValue: { appearance: 'outline', subscriptSizing: 'dynamic' },

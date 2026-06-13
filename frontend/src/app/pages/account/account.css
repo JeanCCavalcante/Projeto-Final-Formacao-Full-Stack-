@@ -70,14 +70,6 @@ mat-card.account {
         height: fit-content;
       }
     }
-
-    & .post-form {
-      justify-self: center;
-
-      & ::ng-deep label {
-        font-weight: 600;
-      }
-    }
   }
   & mat-card-actions {
     & > button.info[matButton] {

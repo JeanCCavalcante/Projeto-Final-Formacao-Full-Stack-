@@ -1,23 +1,5 @@
-mat-card.form {
-  & mat-card-content,
-  & .half-width {
-    display: grid;
-    gap: calc(var(--mat-standard-spacing) * 3);
-
-    & .half-width {
-      grid-template-columns: repeat(2, auto);
-    }
-
-    & mat-form-field {
-      height: fit-content;
-    }
-  }
-
-  & .post-form {
-    justify-self: center;
-
-    & ::ng-deep label {
-      font-weight: 600;
-    }
-  }
+::ng-deep .mat-mdc-dialog-content {
+  display: flex;
+  flex-direction: column;
+  max-height: fit-content;
 }

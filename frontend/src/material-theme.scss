@@ -234,7 +234,8 @@ html {
       text-label-text-color: $primary-color,
       text-hover-state-layer-opacity: 0.04,
       text-pressed-state-layer-opacity: 0.04,
-      text-ripple-color: color-mix(
+      text-ripple-color:
+        color-mix(
           in srgb,
           $primary-color calc(var(--mat-sys-pressed-state-layer-opacity) * 100%),
           transparent
@@ -253,6 +254,12 @@ html {
     )
   );
 }
+
+@include mat.dialog-overrides(
+  (
+    container-elevation-shadow: var(--box-shadow),
+  )
+);
 
 // -----------------------------------------------------------------------------
 // COMPONENT-SPECIFIC OVERRIDES (outside html for global reach)
@@ -339,6 +346,25 @@ main {
 
 p {
   margin: 0;
+}
+
+.auth-modal {
+  backdrop-filter: blur(10px);
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.auth-footer {
+  display: flex;
+  font-size: 0.875rem;
+  justify-content: center;
+  margin: calc(var(--mat-standard-spacing) * 2);
+
+  & a {
+    color: var(--primary-color);
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+  }
 }
 
 // -----------------------------------------------------------------------------
@@ -527,7 +553,7 @@ mat-card.form {
     width: 100%;
   }
 
-  & mat-card-actions > button[data-full-width-button] {
+  & mat-card-actions > button.full-width {
     width: 100%;
   }
 }

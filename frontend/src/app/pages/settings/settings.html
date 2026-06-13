@@ -3,37 +3,6 @@
 <mat-card class="settings">
     <mat-card-header class="settings">
         <mat-card-title-group>
-            <mat-card-title>Notificações</mat-card-title>
-            <mat-card-subtitle>Defina como quer receber suas notificações</mat-card-subtitle>
-        </mat-card-title-group>
-    </mat-card-header>
-    <mat-divider></mat-divider>
-    @if (notificationSettings$ | async; as notificationSettings) {
-    <mat-card-content class="settings checkboxes">
-        <section class="checkboxes">
-            <h5>E-mail</h5>
-            <mat-checkbox
-                [checked]="notificationSettings.notifications.email.productUpdates">Atualizações</mat-checkbox>
-            <mat-checkbox [checked]="notificationSettings.notifications.email.securityUpdates">Atualizações de
-                segurança</mat-checkbox>
-        </section>
-        <section class="checkboxes">
-            <h5>SMS</h5>
-            <mat-checkbox [checked]="notificationSettings.notifications.phone.email">E-mail</mat-checkbox>
-            <mat-checkbox [checked]="notificationSettings.notifications.phone.securityUpdates">Atualizações de
-                segurança</mat-checkbox>
-        </section>
-    </mat-card-content>
-    }
-    <mat-divider></mat-divider>
-    <mat-card-actions>
-        <button matButton="filled" type="button">Salvar alterações</button>
-    </mat-card-actions>
-</mat-card>
-
-<mat-card class="settings">
-    <mat-card-header class="settings">
-        <mat-card-title-group>
             <mat-card-title>Senha</mat-card-title>
             <mat-card-subtitle>Atualize sua senha</mat-card-subtitle>
         </mat-card-title-group>
@@ -42,10 +11,10 @@
     <mat-card-content class="settings password">
         <form class="password">
             <mat-form-field>
-                <input matInput type="password" placeholder="Senha">
+                <input matInput type="password" placeholder="Senha nova">
             </mat-form-field>
             <mat-form-field>
-                <input matInput type="password" placeholder="Confirme sua senha">
+                <input matInput type="password" placeholder="Confirme sua senha nova">
             </mat-form-field>
         </form>
     </mat-card-content>
