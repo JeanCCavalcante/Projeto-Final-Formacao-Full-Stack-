@@ -5,7 +5,6 @@ import { Observable, Subscription } from 'rxjs';
 import { MatPaginator } from '@angular/material/paginator';
 
 import { CustomersInfo } from '../../models/users';
-import { CustomersService } from '../../services/customers';
 import { Login } from '../../auth/login/login';
 import { AuthService } from '../../services/auth';
 @Component({
@@ -67,12 +66,7 @@ export class Customers implements OnInit, OnDestroy, AfterViewInit {
     .map((column) => column.columnDef)
     .filter((header) => header !== 'id' && header !== 'avatar');
 
-  constructor(
-    private readonly customersService: CustomersService,
-    private readonly authService: AuthService
-  ) {
-    this.customers$ = this.customersService.fetchCustomers();
-  }
+  constructor(private readonly authService: AuthService) {}
 
   isAllSelected() {
     const numSelected = this.selection.selected.length;

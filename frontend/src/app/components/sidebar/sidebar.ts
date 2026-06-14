@@ -35,7 +35,7 @@ export class Sidebar {
       iconActive: 'ph-fill:gear-six',
     },
     {
-      name: 'Perfil',
+      name: 'Minha Conta',
       route: '/account',
       icon: 'ph-light:user-circle',
       iconActive: 'ph-fill:user-circle',

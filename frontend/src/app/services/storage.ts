@@ -9,21 +9,21 @@ import { UserInfo } from '../models/users';
 })
 export class StorageService {
   saveLoggedUser(userInfo: UserInfo) {
-    globalThis.localStorage.setItem(USER_KEY, JSON.stringify(userInfo));
+    localStorage.setItem(USER_KEY, JSON.stringify(userInfo));
   }
 
   getLoggedUser(): UserInfo | null {
-    const loggedUser = globalThis.localStorage.getItem(USER_KEY);
+    const loggedUser = localStorage.getItem(USER_KEY);
     if (!loggedUser) return null;
     return JSON.parse(loggedUser);
   }
 
   clearUser(): void {
-    globalThis.localStorage.clear();
+    localStorage.removeItem(USER_KEY);
   }
 
   getExpiration(): moment.Moment | undefined {
-    const loggedUser = globalThis.localStorage.getItem(USER_KEY);
+    const loggedUser = localStorage.getItem(USER_KEY);
 
     if (!loggedUser) return;
 

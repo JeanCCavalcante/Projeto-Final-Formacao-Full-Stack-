@@ -1,20 +1,12 @@
 @if (loggedUser(); as loggedUser) {
-<img [src]="" alt="" [matMenuTriggerFor]="menu" class="menu-avatar" (click)="onClickingAvatar()">
+<img [src]="" alt="" [matMenuTriggerFor]="menu" class="menu-avatar" (click)="openMenu()">
 <mat-menu class="user-menu" #menu="matMenu">
     <hgroup>
-        <h6 class="user-name">{{ loggedUser.name }}</h6>
-        <p class="user-email">{{ loggedUser.role }}</p>
+        <h6 class="title">{{ loggedUser.name }}</h6>
+        <p class="subtitle">{{ loggedUser.role | titlecase }}</p>
     </hgroup>
     <mat-divider></mat-divider>
-    <button mat-menu-item type="button" routerLink="/settings" class="menu-button">
-        <mat-icon class="menu-icon" svgIcon="ph-light:gear-six"></mat-icon>
-        <span>Configurações</span>
-    </button>
-    <button mat-menu-item type="button" routerLink="/account" class="menu-button">
-        <mat-icon class="menu-icon" svgIcon="ph-light:user-circle"></mat-icon>
-        <span>Perfil</span>
-    </button>
-    <button mat-menu-item type="button" class="menu-button">
+    <button mat-menu-item type="button" (click)="signOut()" class="menu-button">
         <mat-icon class="menu-icon" svgIcon="ph-light:sign-out"></mat-icon>
         <span>Sair</span>
     </button>

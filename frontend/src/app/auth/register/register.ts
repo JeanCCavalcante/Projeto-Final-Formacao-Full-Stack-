@@ -3,7 +3,7 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 
 import { AuthService } from '../../services/auth';
-import { UserRegister } from '../../models/users';
+import { UserProfileUpdate, UserRegistration } from '../../models/users';
 import { Login } from '../login/login';
 
 @Component({
@@ -17,9 +17,9 @@ export class Register {
 
   constructor(private readonly authService: AuthService, private readonly router: Router) {}
 
-  onRegister(userData: UserRegister) {
+  onRegister(userData: UserRegistration | UserProfileUpdate) {
     if (userData) {
-      this.authService.register(userData).subscribe({
+      this.authService.register(userData as UserRegistration).subscribe({
         next: () => {
           this.router.navigateByUrl('/account');
           this.dialogRef.close(true);

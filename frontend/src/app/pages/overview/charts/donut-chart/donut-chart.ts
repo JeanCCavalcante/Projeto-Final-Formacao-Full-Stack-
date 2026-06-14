@@ -80,7 +80,7 @@ export class DonutChart implements OnChanges {
   ngOnChanges(): void {
     this.chartOptions.series = Object.values(this.trafficSource);
     this.chartOptions.labels = Object.keys(this.trafficSource).map((label) =>
-      label.replace(/^./, (char) => char.toUpperCase()),
+      label.replace(/^./, (char) => char.toUpperCase())
     );
   }
 }

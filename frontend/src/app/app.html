@@ -1,20 +1,14 @@
 <mat-sidenav-container class="dashboard-container">
 
   <mat-sidenav #sidenav mode="side" opened="true">
-    @defer {
     <app-sidebar></app-sidebar>
-    } @placeholder {
-    <ngx-skeleton-loader /> }
   </mat-sidenav>
 
   <mat-sidenav-content>
     <app-header [sidenav]="sidenav"></app-header>
     <mat-divider class="header"></mat-divider>
     <main>
-      @defer {
       <router-outlet></router-outlet>
-      } @placeholder {
-      <ngx-skeleton-loader /> }
     </main>
   </mat-sidenav-content>
 </mat-sidenav-container>

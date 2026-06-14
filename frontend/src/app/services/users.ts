@@ -2,8 +2,8 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 
 import { AUTH_API, AUTH_HTTP_OPTIONS } from '../constants/auth';
-import { UserRegister } from '../models/users';
-import { Observable, tap } from 'rxjs';
+import { BackendUser, LoggedUser, UserProfileUpdate } from '../models/users';
+import { Observable, of, switchMap, throwError } from 'rxjs';
 import { MappingService } from './mapping';
 import { AuthStateService } from './auth-state';
 
@@ -18,18 +18,25 @@ export class UsersService {
     private readonly mappingService: MappingService
   ) {}
 
-  getUserData(id: string | undefined): Observable<UserRegister> {
-    return this.http.get<UserRegister>(`${AUTH_API}/users/${id}`, AUTH_HTTP_OPTIONS);
+  getUserData(id: string): Observable<BackendUser> {
+    return this.http.get<BackendUser>(`${AUTH_API}/users/${id}`, AUTH_HTTP_OPTIONS);
   }
 
-  updateUserData(
-    id: string | undefined,
-    updatedData: UserRegister
-  ): Observable<Partial<UserRegister>> {
+  updateUserData(updatedData: UserProfileUpdate): Observable<LoggedUser> {
+    const currentUser = this.authStateService.loggedUser();
+    const loggedId = currentUser?._id;
+    if (!loggedId) {
+      return throwError(() => new Error('No user id found'));
+    }
     const apiFriendlyUpdate = this.mappingService.toApiFriendlyFormat(updatedData);
-
     return this.http
-      .put<UserRegister>(`${AUTH_API}/users/${id}`, apiFriendlyUpdate, AUTH_HTTP_OPTIONS)
-      .pipe(tap({ next: () => this.authStateService.updateUserProfile(updatedData) }));
+      .put<BackendUser>(`${AUTH_API}/users/${loggedId}`, apiFriendlyUpdate, AUTH_HTTP_OPTIONS)
+      .pipe(
+        switchMap((backendUser) => {
+          const fullProfile = this.mappingService.toUserModel(backendUser);
+          this.authStateService.updateUserProfile(fullProfile);
+          return of(fullProfile);
+        })
+      );
   }
 }

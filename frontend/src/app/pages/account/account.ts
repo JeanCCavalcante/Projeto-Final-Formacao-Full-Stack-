@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 
-import { UserRegister } from '../../models/users';
+import { UserProfileUpdate } from '../../models/users';
 import { UsersService } from '../../services/users';
 import { AuthStateService } from '../../services/auth-state';
 
@@ -13,14 +13,10 @@ import { AuthStateService } from '../../services/auth-state';
 export class Account {
   protected loggedUserProfile = inject(AuthStateService).loggedUser;
 
-  constructor(
-    private readonly authStateService: AuthStateService,
-    private readonly usersService: UsersService
-  ) {}
+  constructor(private readonly usersService: UsersService) {}
 
-  updateLoggedUserProfile(updatedData: UserRegister): void {
-    const userId = this.authStateService.loggedUser()?._id;
-    this.usersService.updateUserData(userId, updatedData).subscribe({
+  updateLoggedUserProfile(updatedData: UserProfileUpdate): void {
+    this.usersService.updateUserData(updatedData).subscribe({
       error: (error) => console.error(error.error),
     });
   }

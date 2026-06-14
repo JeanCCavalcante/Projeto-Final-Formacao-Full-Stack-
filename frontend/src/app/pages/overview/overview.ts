@@ -3,8 +3,6 @@ import { MatTableDataSource } from '@angular/material/table';
 import { map, Observable, Subject, takeUntil } from 'rxjs';
 
 import { LatestOrder, LatestProduct, OverviewInfo, SalesInfo } from '../../models/users';
-import { OverviewService } from '../../services/overview';
-import { Login } from '../../auth/login/login';
 import { AuthService } from '../../services/auth';
 
 @Component({
@@ -13,7 +11,7 @@ import { AuthService } from '../../services/auth';
   templateUrl: './overview.html',
   styleUrl: './overview.css',
 })
-export class Overview implements OnInit, OnDestroy {
+export class Overview implements OnDestroy {
   private readonly destroy$ = new Subject<void>();
   latestOrders$: Observable<LatestOrder[]> | null = null;
   latestProducts$: Observable<LatestProduct[]> | null = null;
@@ -73,10 +71,7 @@ export class Overview implements OnInit, OnDestroy {
   displayedColumns: Array<string> = [];
   headers: Array<string> = this.columns.map((column) => column.columnDef);
 
-  constructor(
-    private readonly overviewService: OverviewService,
-    private readonly authService: AuthService
-  ) {}
+  constructor(private readonly authService: AuthService) {}
 
   get budget() {
     return this.overviewInfo.budget;
@@ -114,7 +109,7 @@ export class Overview implements OnInit, OnDestroy {
     return Math.floor(percent);
   }
 
-  ngOnInit(): void {
+  /*   ngOnInit(): void {
     this.overviewService
       .fetchOverviewInfo()
       .pipe(
@@ -163,7 +158,7 @@ export class Overview implements OnInit, OnDestroy {
     this.latestProducts$ = this.overviewService.fetchProducts(5);
 
     this.displayedColumns.push(...this.headers);
-  }
+  } */
 
   ngOnDestroy(): void {
     this.destroy$.next();

@@ -4,7 +4,6 @@ import { MatTableDataSource } from '@angular/material/table';
 import { forkJoin, map, Observable, Subject, takeUntil } from 'rxjs';
 
 import { Application } from '../../models/users';
-import { IntegrationsService } from '../../services/integrations';
 import { AuthService } from '../../services/auth';
 
 @Component({
@@ -13,7 +12,7 @@ import { AuthService } from '../../services/auth';
   templateUrl: './integrations.html',
   styleUrl: './integrations.css',
 })
-export class Integrations implements OnInit, OnDestroy, AfterViewInit {
+export class Integrations implements OnDestroy, AfterViewInit {
   private readonly destroy$ = new Subject<void>();
   integrations$: Observable<Application[]> | null = null;
 
@@ -23,12 +22,9 @@ export class Integrations implements OnInit, OnDestroy, AfterViewInit {
 
   @ViewChild(MatPaginator) paginator: MatPaginator | null = null;
 
-  constructor(
-    private readonly integrationsService: IntegrationsService,
-    private readonly authService: AuthService
-  ) {}
+  constructor(private readonly authService: AuthService) {}
 
-  ngOnInit(): void {
+  /*   ngOnInit(): void {
     forkJoin([
       this.integrationsService.fetchIntegrations(),
       this.integrationsService.fetchIntegrationsByUser(this.userId),
@@ -44,7 +40,7 @@ export class Integrations implements OnInit, OnDestroy, AfterViewInit {
       )
       .subscribe();
     this.integrations$ = this.dataSource.connect();
-  }
+  } */
 
   ngAfterViewInit(): void {
     this.dataSource.paginator = this.paginator;

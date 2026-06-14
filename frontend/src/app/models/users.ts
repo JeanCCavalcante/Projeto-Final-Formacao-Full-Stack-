@@ -19,16 +19,44 @@ export interface AuthRegisterResponse {
   };
 }
 
-export interface UserRegister {
+export interface BackendUser {
+  _id: string;
+  name: string;
+  email: string;
+  papel: RoleEnum;
+  formacao_acessibilidade: 'Sim' | 'Não';
+  anos_empresa: number;
+  departamento: DepartmentEnum;
+  area_atuacao: AreaEnum;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+export interface UserRegistration {
   name: string;
   email: string;
   password: string;
   role: RoleEnum;
   acessibilityFormation: boolean;
-  area: AreaEnum;
   companyYears: number;
   department: DepartmentEnum;
+  area: AreaEnum;
 }
+
+export interface LoggedUser {
+  _id: string;
+  name: string;
+  email: string;
+  role: RoleEnum;
+  acessibilityFormation: boolean;
+  companyYears: number;
+  department: DepartmentEnum;
+  area: AreaEnum;
+}
+
+export type UserProfileUpdate = Partial<Omit<LoggedUser, '_id'>> & {
+  password?: string;
+};
 
 export type UserInfo = AuthLoginResponse & { _id: string; expiresIn: number };
 

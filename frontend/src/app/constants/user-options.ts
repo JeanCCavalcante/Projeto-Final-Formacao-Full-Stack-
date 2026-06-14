@@ -1,4 +1,4 @@
-import { RoleEnum, DepartmentEnum, AreaEnum } from '../enums/user';
+import { RoleEnum, DepartmentEnum, AreaEnum } from '../enums/select-mapping';
 
 export interface SelectOption<T = string> {
   label: string;

@@ -1,10 +1,13 @@
 import { BreakpointObserver } from '@angular/cdk/layout';
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, inject, OnInit, ViewChild } from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
+import { Title } from '@angular/platform-browser';
+import { NavigationEnd, Router } from '@angular/router';
+import { filter } from 'rxjs';
 
-import { Login } from './auth/login/login';
 import { AuthService } from './services/auth';
 import { AuthStateService } from './services/auth-state';
+import { RouteDataService } from './services/route-data';
 
 @Component({
   selector: 'app-root',
@@ -12,19 +15,24 @@ import { AuthStateService } from './services/auth-state';
   templateUrl: './app.html',
 })
 export class App implements OnInit, AfterViewInit {
+  protected loggedIn = inject(AuthStateService).isLoggedIn;
+
   @ViewChild(MatSidenav)
   sidenav: MatSidenav | null = null;
 
   constructor(
-    private readonly observer: BreakpointObserver,
     private readonly authService: AuthService,
-    private readonly authStateService: AuthStateService
+    private readonly observer: BreakpointObserver,
+    private readonly router: Router,
+    private readonly routeDataService: RouteDataService,
+    private readonly title: Title
   ) {}
 
-  ngOnInit() {
-    /*     if (!this.authStateService.isLoggedIn()) {
-      this.authService.openAuthModal(Login);
-    } */
+  ngOnInit(): void {
+    this.authService.init();
+    this.router.events
+      .pipe(filter((event) => event instanceof NavigationEnd))
+      .subscribe((_) => this.title.setTitle(`Focus | ${this.routeDataService.get()['title']}`));
   }
 
   ngAfterViewInit() {

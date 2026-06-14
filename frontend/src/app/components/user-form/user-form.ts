@@ -8,7 +8,7 @@ import {
 } from '@angular/forms';
 
 import { RoleOptions, DepartmentOptions, AreaOptions } from '../../constants/select-options';
-import { UserRegister } from '../../models/users';
+import { UserProfileUpdate, UserRegistration } from '../../models/users';
 
 @Component({
   selector: 'app-user-form',
@@ -17,12 +17,12 @@ import { UserRegister } from '../../models/users';
   styleUrl: './user-form.css',
 })
 export class UserForm implements OnInit {
-  readonly initialData = input<Partial<UserRegister>>({});
+  readonly initialData = input<Partial<UserProfileUpdate>>({});
   readonly submitButtonLabel = input<string>('');
   readonly showPasswordField = input<boolean>(true);
   readonly fullWidthButton = input<boolean>(true);
 
-  readonly formSubmit = output<UserRegister>();
+  readonly formSubmit = output<UserRegistration | UserProfileUpdate>();
 
   private readonly formBuilder = inject(FormBuilder);
   protected userForm: FormGroup = this.formBuilder.group({});
@@ -59,7 +59,7 @@ export class UserForm implements OnInit {
     const data = this.initialData();
     if (!data) return;
 
-    const patchData: Partial<UserRegister> = {};
+    const patchData: Partial<UserProfileUpdate> = {};
     if (data.name !== undefined) patchData.name = data.name;
     if (data.email !== undefined) patchData.email = data.email;
     if (data.role !== undefined) patchData.role = data.role;
@@ -80,7 +80,7 @@ export class UserForm implements OnInit {
 
   onSubmit(): void {
     if (this.userForm.valid) {
-      this.formSubmit.emit(this.userForm.value as UserRegister);
+      this.formSubmit.emit(this.userForm.value as UserProfileUpdate);
     }
   }
 }
