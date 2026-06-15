@@ -21,7 +21,7 @@ def connect_to_mongo():
     collection_users = db["users"]
     collection_tasks = db["tasks"]
     print("Conexão estabelecida com sucesso!")
-    #print("a chave do armário é:", chave_mongo)
+    #print("a chave do armário é:", chave_mongo)  esse print foi no momento que estava dando errado e eu queria ver se a chave estava sendo lida corretamente.
     return collection_users, collection_tasks
 
 if __name__ == "__main__":
