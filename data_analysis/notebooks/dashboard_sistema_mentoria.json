@@ -1,56 +1,55 @@
 {
     "visao_geral_equipe": {
         "cards": {
-            "tempo_medio_execucao_geral_dias": 12.2,
-            "mediana_tempo_geral_dias": 12.0,
-            "tarefa_mais_demorada_equipe_dias": 24.0,
-            "total_tarefas_submetidas": 78
+            "tempo_medio_execucao_geral_dias": 9.9,
+            "mediana_tempo_geral_dias": 9.0,
+            "tarefa_mais_demorada_equipe_dias": 24.0
         },
         "grafico_pizza_status_geral": [
             {
                 "status": "concluida",
                 "quantidade": 44,
-                "percentual": 62.5
+                "percentual": 56.41025641025641
             },
             {
                 "status": "andamento",
                 "quantidade": 19,
-                "percentual": 18.8
+                "percentual": 24.358974358974358
             },
             {
                 "status": "pendente",
-                "quantidade": 14,
-                "percentual": 18.8
+                "quantidade": 15,
+                "percentual": 19.230769230769234
             }
         ],
         "grafico_gargalos_por_area": [
             {
                 "area": "QA",
-                "quantidade_tarefas_actives": 9
+                "quantidade_tarefas_ativas": 9
             },
             {
                 "area": "Data Engineer",
-                "quantidade_tarefas_actives": 6
+                "quantidade_tarefas_ativas": 6
             },
             {
                 "area": "DevMobile",
-                "quantidade_tarefas_actives": 5
+                "quantidade_tarefas_ativas": 5
             },
             {
                 "area": "Produto",
-                "quantidade_tarefas_actives": 4
-            },
-            {
-                "area": "UX/UIDesigner",
-                "quantidade_tarefas_actives": 3
+                "quantidade_tarefas_ativas": 4
             },
             {
                 "area": "DevBack-end",
-                "quantidade_tarefas_actives": 3
+                "quantidade_tarefas_ativas": 3
+            },
+            {
+                "area": "UX/UIDesigner",
+                "quantidade_tarefas_ativas": 3
             },
             {
                 "area": "DevFront-end",
-                "quantidade_tarefas_actives": 3
+                "quantidade_tarefas_ativas": 3
             }
         ],
         "tabela_mentores_status": [
@@ -60,6 +59,14 @@
                     "andamento": 19,
                     "concluida": 44,
                     "pendente": 14
+                }
+            },
+            {
+                "mentor": "fdf",
+                "status_tarefas": {
+                    "andamento": 0,
+                    "concluida": 0,
+                    "pendente": 1
                 }
             }
         ]
@@ -79,16 +86,16 @@
                 "cor_sugerida": "#2f855a"
             },
             {
-                "status": "pendente",
-                "quantidade": 3,
-                "percentual": 18.8,
-                "cor_sugerida": "#e53e3e"
-            },
-            {
                 "status": "andamento",
                 "quantidade": 3,
                 "percentual": 18.8,
                 "cor_sugerida": "#dd6b20"
+            },
+            {
+                "status": "pendente",
+                "quantidade": 3,
+                "percentual": 18.8,
+                "cor_sugerida": "#e53e3e"
             }
         ],
         "grafico_evolucao_sprints": {
@@ -101,15 +108,15 @@
                     "prioridade": "media"
                 },
                 {
-                    "titulo_tarefa": "Ajustar Pipeline CI/CD - Sprint 2",
-                    "sprint": "Sprint 2",
-                    "dias_gastos": 11.0,
-                    "prioridade": "alta"
-                },
-                {
                     "titulo_tarefa": "Criar Scripts de Deploy - Sprint 2",
                     "sprint": "Sprint 2",
                     "dias_gastos": 9.0,
+                    "prioridade": "alta"
+                },
+                {
+                    "titulo_tarefa": "Ajustar Pipeline CI/CD - Sprint 2",
+                    "sprint": "Sprint 2",
+                    "dias_gastos": 11.0,
                     "prioridade": "alta"
                 },
                 {
@@ -125,12 +132,6 @@
                     "prioridade": "alta"
                 },
                 {
-                    "titulo_tarefa": "Documentar Tabelas no BD - Sprint 6",
-                    "sprint": "Sprint 6",
-                    "dias_gastos": 10.0,
-                    "prioridade": "baixa"
-                },
-                {
                     "titulo_tarefa": "Criar Pipeline CI/CD - Sprint 6",
                     "sprint": "Sprint 6",
                     "dias_gastos": 17.0,
@@ -141,6 +142,12 @@
                     "sprint": "Sprint 6",
                     "dias_gastos": 20.0,
                     "prioridade": "alta"
+                },
+                {
+                    "titulo_tarefa": "Documentar Tabelas no BD - Sprint 6",
+                    "sprint": "Sprint 6",
+                    "dias_gastos": 10.0,
+                    "prioridade": "baixa"
                 },
                 {
                     "titulo_tarefa": "Refatorar Pipeline CI/CD - Sprint 7",
@@ -158,24 +165,7 @@
         },
         "tabela_atividades_criticas": [
             {
-                "titulo": "Otimizar Pipeline CI/CD - Sprint 2",
-                "mentorado": "Ana Ribeiro",
-                "prioridade": "media",
-                "status_atual": "pendente",
-                "duracao_em_dias": 21.0,
-                "meta_dias": 11.4,
-                "Diagnostico": "🔴 Crítico (Fila)"
-            },
-            {
-                "titulo": "Implementar Tabelas no BD - Sprint 5",
-                "mentorado": "Ana Ribeiro",
-                "prioridade": "alta",
-                "status_atual": "pendente",
-                "duracao_em_dias": 17.0,
-                "meta_dias": 9.9,
-                "Diagnostico": "🔴 Crítico (Fila)"
-            },
-            {
+                "index": 17,
                 "titulo": "Implementar Scripts de Deploy - Sprint 1",
                 "mentorado": "Ana Ribeiro",
                 "prioridade": "alta",
@@ -187,6 +177,7 @@
         ],
         "tabela_atividades_saudaveis": [
             {
+                "index": 66,
                 "titulo": "Atualizar Scripts de Deploy - Sprint 9",
                 "mentorado": "Ana Ribeiro",
                 "prioridade": "alta",
@@ -196,15 +187,7 @@
                 "Diagnostico": "🟢 Dentro do Prazo"
             },
             {
-                "titulo": "Otimizar Scripts de Deploy - Sprint 8",
-                "mentorado": "Ana Ribeiro",
-                "prioridade": "alta",
-                "status_atual": "pendente",
-                "duracao_em_dias": 4.0,
-                "meta_dias": 9.9,
-                "Diagnostico": "⚪ Pendente Normal"
-            },
-            {
+                "index": 49,
                 "titulo": "Criar Pipeline CI/CD - Sprint 7",
                 "mentorado": "Ana Ribeiro",
                 "prioridade": "alta",
@@ -212,6 +195,36 @@
                 "duracao_em_dias": 2.0,
                 "meta_dias": 9.9,
                 "Diagnostico": "🟢 Dentro do Prazo"
+            },
+            {
+                "index": 34,
+                "titulo": "Implementar Tabelas no BD - Sprint 5",
+                "mentorado": "Ana Ribeiro",
+                "prioridade": "alta",
+                "status_atual": "pendente",
+                "duracao_em_dias": 0.0,
+                "meta_dias": 9.9,
+                "Diagnostico": "⚪ Pendente Normal"
+            },
+            {
+                "index": 56,
+                "titulo": "Otimizar Scripts de Deploy - Sprint 8",
+                "mentorado": "Ana Ribeiro",
+                "prioridade": "alta",
+                "status_atual": "pendente",
+                "duracao_em_dias": 0.0,
+                "meta_dias": 9.9,
+                "Diagnostico": "⚪ Pendente Normal"
+            },
+            {
+                "index": 36,
+                "titulo": "Otimizar Pipeline CI/CD - Sprint 2",
+                "mentorado": "Ana Ribeiro",
+                "prioridade": "media",
+                "status_atual": "pendente",
+                "duracao_em_dias": 0.0,
+                "meta_dias": 11.4,
+                "Diagnostico": "⚪ Pendente Normal"
             }
         ]
     }

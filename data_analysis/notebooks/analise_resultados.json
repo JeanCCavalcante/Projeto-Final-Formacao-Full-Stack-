@@ -1,0 +1,50 @@
+{
+    "tempo_medio_conclusao_dias": 12.69767441860465,
+    "mediana_tempo_conclusao_dias": 12.0,
+    "max_tempo_conclusao_dias": 23.0,
+    "total_tarefas_submetidas": 78,
+    "atrasadas": 34,
+    "tabela_problemas": [],
+    "tempo_medio_conclusao_por_area": {
+        "Data Engineer": 15.2,
+        "DevBack-end": 13.857142857142858,
+        "QA": 12.5,
+        "UX/UIDesigner": 12.0,
+        "DevMobile": 10.8,
+        "Produto": 10.666666666666666,
+        "DevFront-end": 10.571428571428571
+    },
+    "tempo_medio_conclusao_por_prioridade": {
+        "media": 13.157894736842104,
+        "alta": 12.533333333333333,
+        "baixa": 12.0
+    },
+    "distribuicao_status_pct": {
+        "concluida": 56.41025641025641,
+        "andamento": 24.358974358974358,
+        "pendente": 19.230769230769234
+    },
+    "tarefas_pendentes_por_area": {
+        "QA": 9,
+        "Data Engineer": 6,
+        "DevMobile": 5,
+        "Produto": 4,
+        "DevBack-end": 3,
+        "UX/UIDesigner": 3,
+        "DevFront-end": 3
+    },
+    "status_por_mentor": {
+        "andamento": {
+            "Juliana Costa": 19,
+            "fdf": 0
+        },
+        "concluida": {
+            "Juliana Costa": 44,
+            "fdf": 0
+        },
+        "pendente": {
+            "Juliana Costa": 14,
+            "fdf": 1
+        }
+    }
+}
