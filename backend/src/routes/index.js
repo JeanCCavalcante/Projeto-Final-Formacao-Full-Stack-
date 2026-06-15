@@ -11,6 +11,6 @@ routes.use('/api/auth', authenticateRoutes);
 
 routes.use('/api/tasks', taskRoutes);
 
-routes.use('/users', userRoutes);
+routes.use('/api/users', userRoutes);
 
 module.exports = routes;

@@ -38,7 +38,7 @@ const getById = async (req, res) => {
 // Atualizar o perfil dinamicamente forçando os validadores de ENUM do Mongoose
 const update = async (req, res) => {
   const { id } = req.params;
-  const { name, email, password, papel, formacao_acessibilidade, anos_empresa, departamento } = req.body; 
+  const { name, email, password, papel, formacao_acessibilidade, anos_empresa, departamento, area_atuacao } = req.body; 
 
   try {
     const updateData = {};
@@ -49,6 +49,7 @@ const update = async (req, res) => {
     if (formacao_acessibilidade) updateData.formacao_acessibilidade = formacao_acessibilidade;
     if (anos_empresa !== undefined) updateData.anos_empresa = anos_empresa;
     if (departamento) updateData.departamento = departamento;
+    if (area_atuacao) updateData.area_atuacao = area_atuacao;
 
     if (password) {
       updateData.password = await bcrypt.hash(password, 10);
