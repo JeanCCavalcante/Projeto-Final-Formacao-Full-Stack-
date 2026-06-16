@@ -28,7 +28,7 @@ module.exports = {
 
       return res.status(201).json({
         message: "Usuário registrado com sucesso!",
-        user: { id: newUser._id, name: newUser.name, email: newUser.email, papel: newUser.papel }
+        user: { id: newUser._id, name: newUser.name, email: newUser.email, papel: newUser.papel, area_atuacao: newUser.area_atuacao }
       });
 
     } catch (error) {
@@ -60,7 +60,7 @@ module.exports = {
 
       return res.json({
         token,
-        user: { user_id: user._id, name: user.name, email: user.email, papel: user.papel }
+        user: { user_id: user._id, name: user.name, email: user.email, papel: user.papel, area_atuacao: user.area_atuacao }
       });
 
     } catch (error) {
