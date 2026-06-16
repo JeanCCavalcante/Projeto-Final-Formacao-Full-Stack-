@@ -35,7 +35,7 @@ Objetivo: Uma solução completa para gerenciamento de tarefas com foco em segur
 
 ## Arquitetura do Pipeline
 
-<img width="3200" height="1100" alt="Image" src="https://github.com/user-attachments/assets/9350511e-cc7c-4b2b-89d8-089570fada60" />
+<img width="3200" height="1200" alt="Image" src="https://github.com/user-attachments/assets/57892614-0247-4093-80b7-1a5c11408e7e" />
 
 ---
 
@@ -96,13 +96,13 @@ Objetivo: Uma solução completa para gerenciamento de tarefas com foco em segur
 
 ---
 
-## Instalação e configuração
+## Instalação e Configuração
 
 ---
 
 ## Como Executar o Projeto
 
-## 1) Pré-requisitos
+### 1) Pré-requisitos
 
 - Node.js instalado
 - Python 3.14 ou superior
