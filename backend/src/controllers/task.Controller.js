@@ -1,5 +1,6 @@
 const Task = require('../models/Task'); 
 const TaskHistory = require('../models/TaskHistory'); 
+const User = require('../models/User');
 
 module.exports = {
   // Listar todas as tarefas vinculadas ao mentorado autenticado
@@ -16,15 +17,22 @@ module.exports = {
   // Cadastrar uma nova tarefa e registrar o estado inicial de 'pendente' no histórico
   async store(req, res) {
     try {
-      const { titulo, descricao, prioridade, mentor_responsavel, data_inicio, mentorado } = req.body;
+      const { titulo, descricao, prioridade, mentor_responsavel, data_inicio, status_atual, mentorado } = req.body;
       const userId = req.user.id;
-      let status_atual = 'pendente';
+      
+
+      const usuarioLogado = await User.findById(userId);
+      if (!usuarioLogado) {
+        return res.status(404).json({ error: "Utilizador não encontrado." });
+      }
+
+      const statusParaSalvar = status_atual || 'pendente'; // Se não for fornecido, assume 'pendente'
 
       const newTask = await Task.create({
         titulo,
         descricao,
         prioridade,
-        status_atual,
+        status_atual: statusParaSalvar,
         mentor_responsavel,
         data_inicio,
         mentorado,
@@ -36,7 +44,7 @@ module.exports = {
       await TaskHistory.create({
         task_id: newTask._id,
         status_anterior: null,
-        status_novo: status_atual,
+        status_novo: statusParaSalvar,
         data_mudanca: new Date()
       });
 
@@ -51,7 +59,7 @@ module.exports = {
   async update(req, res) {
     try {
       const { id } = req.params; 
-      const { titulo, descricao, prioridade, status_atual, area_atuacao, mentor_responsavel, data_inicio, data_conclusao, feedback_conclusao_mentorado } = req.body;
+      const { titulo, descricao, prioridade, status_atual, mentor_responsavel, data_inicio, data_conclusao, feedback_conclusao_mentorado } = req.body;
       const userId = req.user.id;
 
       const task = await Task.findById(id);
@@ -71,7 +79,6 @@ module.exports = {
       if (titulo) task.titulo = titulo;
       if (descricao) task.descricao = descricao;
       if (prioridade) task.prioridade = prioridade;
-      if (area_atuacao) task.area_atuacao = area_atuacao;
       if (mentor_responsavel) task.mentor_responsavel = mentor_responsavel;
       
       // Modificação direta e livre dos campos de data e do feedback do mentorado
