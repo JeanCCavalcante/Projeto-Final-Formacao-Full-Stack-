@@ -48,6 +48,11 @@ const TaskSchema = new mongoose.Schema({
     ref: 'User', 
     required: true 
   },
+
+  area_atuacao: { 
+    type: String, 
+    required: true 
+  },
   
   mentor_responsavel: {
     type: String,
