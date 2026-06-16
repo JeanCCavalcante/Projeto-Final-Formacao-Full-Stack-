@@ -27,8 +27,8 @@ O pipeline cobre as etapas de:
 2. Validação e tratamento de qualidade de dados
 3. Transformação e criação de métricas
 4. Agregações para análise
-5. Visualização do Dashboard
-
+5. Visualização no Angular
+   
 Objetivo: Uma solução completa para gerenciamento de tarefas com foco em segurança, acessibilidade e análise de dados. 
 
 ---
@@ -63,18 +63,18 @@ Objetivo: Uma solução completa para gerenciamento de tarefas com foco em segur
 
 | Camada | Tecnologia |
 | :--- | :--- |
-| Front-end | HTML5 Semântico, CSS3, JavaScript ES6, Angular. |
+| Front-end | HTML5 Semântico, CSS3, TypeScript, Angular. |
 | Back-end | Node.js, Express.js. |
-| Banco de Dados | MongoDB (via Mongoose ODM). |
+| Banco de Dados | MongoDB, PyMongo . |
 | Segurança | JWT (JSON Web Token), Bcrypt.js. | 
-| Dados | Python 3, Pandas, Matplotlib, PyMongo. |
+| Dados | Python 3, Pandas, Matplotlib. |
 
 ---
 
 ## Estrutura do Projeto
 
 ```text
-├── frontend/      # Interface do Usuário(HTML5 Semântico, CSS3(Flexbox/Grid), JavaScript ES6) 
+├── frontend/      # Interface do Usuário(HTML5 Semântico, CSS3(Flexbox/Grid), TypeScript ES6) 
 ├── backend/       # API REST em Node.js
 ├── data_analysis/ # Scripts de análise em Python
 └── docs/          # Documentação e prints do projeto
