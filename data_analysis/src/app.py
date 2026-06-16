@@ -1,8 +1,9 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 import pandas as pd
-from pathlib import Path
 import re
+
+from canexao import connect_to_mongo
 
 app = FastAPI(title="API de Métricas da Mentoria")
 
@@ -26,10 +27,11 @@ def para_camel_case(texto):
     return palavras[0].lower() + "".join(p.capitalize() for p in palavras[1:])
 
 def carregar_e_processar_dados():
-    raiz_do_projeto = Path(__file__).resolve().parent.parent
-    caminho_csv = raiz_do_projeto / "data" / "raw" / "DATASETFINAL - DATASETFINAL.csv"
+    collection_users, collection_tasks = connect_to_mongo()
+
+    # Transforma os dados reais do banco em uma tabela do Pandas
+    tabela = pd.DataFrame(list(collection_tasks.find()))    
     
-    tabela = pd.read_csv(caminho_csv)
     
     tabela['data_criacao'] = pd.to_datetime(tabela['data_criacao'], errors='coerce')
     tabela['data_conclusao'] = pd.to_datetime(tabela['data_conclusao'], errors='coerce')

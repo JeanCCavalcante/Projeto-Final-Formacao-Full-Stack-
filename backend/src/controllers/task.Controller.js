@@ -16,7 +16,7 @@ module.exports = {
   // Cadastrar uma nova tarefa e registrar o estado inicial de 'pendente' no histórico
   async store(req, res) {
     try {
-      const { titulo, descricao, prioridade, area_atuacao, mentor_responsavel, data_inicio, mentorado } = req.body;
+      const { titulo, descricao, prioridade, mentor_responsavel, data_inicio, mentorado } = req.body;
       const userId = req.user.id;
       let status_atual = 'pendente';
 
@@ -25,11 +25,11 @@ module.exports = {
         descricao,
         prioridade,
         status_atual,
-        area_atuacao,
         mentor_responsavel,
         data_inicio,
         mentorado,
-        user_id: userId 
+        user_id: userId,
+        area_atuacao: usuarioLogado.area_atuacao
       });
 
       // Registra o nascimento da tarefa na história puro, sem campos adicionais
