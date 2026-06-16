@@ -35,7 +35,7 @@ Objetivo: Uma solução completa para gerenciamento de tarefas com foco em segur
 
 ## Arquitetura do Pipeline
 
-<img width="3200" height="1200" alt="Image" src="https://github.com/user-attachments/assets/57892614-0247-4093-80b7-1a5c11408e7e" />
+<img width="3200" height="1100" alt="Image" src="https://github.com/user-attachments/assets/9350511e-cc7c-4b2b-89d8-089570fada60" />
 
 ---
 
@@ -63,18 +63,18 @@ Objetivo: Uma solução completa para gerenciamento de tarefas com foco em segur
 
 | Camada | Tecnologia |
 | :--- | :--- |
-| Front-end | HTML5 Semântico, CSS3, TypeScript, Angular. |
+| Front-end | HTML5 Semântico, CSS3, JavaScript ES6, Angular. |
 | Back-end | Node.js, Express.js. |
-| Banco de Dados | MongoDB, PyMongo . |
+| Banco de Dados | MongoDB (via Mongoose ODM). |
 | Segurança | JWT (JSON Web Token), Bcrypt.js. | 
-| Dados | Python 3, Pandas, Matplotlib. |
+| Dados | Python 3, Pandas, Matplotlib, PyMongo. |
 
 ---
 
 ## Estrutura do Projeto
 
 ```text
-├── frontend/      # Interface do Usuário(HTML5 Semântico, CSS3(Flexbox/Grid), TypeScript ES6) 
+├── frontend/      # Interface do Usuário(HTML5 Semântico, CSS3(Flexbox/Grid), JavaScript ES6) 
 ├── backend/       # API REST em Node.js
 ├── data_analysis/ # Scripts de análise em Python
 └── docs/          # Documentação e prints do projeto
@@ -96,7 +96,7 @@ Objetivo: Uma solução completa para gerenciamento de tarefas com foco em segur
 
 ---
 
-## Instalação e Configuração
+## Instalação e configuração
 
 ---
 
