@@ -84,20 +84,44 @@ Objetivo: Uma solução completa para gerenciamento de tarefas com foco em segur
 
 ## Pré-requisitos
 
-| Camada | Tecnologia | Versão | Por que usamos |
-| :--- | :--- | :--- | :--- |
-| Core | Python | 3.14+ | Linguagem principal para construir o ETL e o dashboard. |
-| Core | Streamlit | 1.44+ | Cria o dashboard interativo rapidamente, sem precisar de front-end. |
-| Biblioteca Python | pandas | 2.2+ | Faz limpeza, transformação, agregações e análise tabular dos dados. |
-| Biblioteca Python | pyarrow | 19.0+ | Leitura e escrita de Parquet com boa performance em formato colunar. |
-| Biblioteca Python | ipykernel | 7.2+ | Conecta o ambiente Python ao Jupyter Notebook. |
-| Ferramenta | Jupyter Notebook | - | Desenvolvimento e validação passo a passo do pipeline ETL. |
-| Ferramenta | uv | - | Gerencia dependências e execução do projeto de forma rápida e reprodutível. |
+| Ferramenta | Versão minima | Por que usamos |
+| :--- | :--- | :--- |
+| Python | 3.14+ | Linguagem principal para construir o ETL e o dashboard. |
+| Angular | v22 | Cria o dashboard interativo. |
+| Biblioteca Python Pandas| 2.2+ | Faz limpeza, transformação, agregações e análise tabular dos dados. |
+| Biblioteca Python Matplotlib.pyplot | 3.9.x | Permiti criar, personalizar e exibir gráficos e visualizações de dados de forma simples e direta. |
+| Node.js | 18.x | Processa milhares de requisições simultâneas de forma rápida usando poucos recursos de hardware. |
+| MongoDB | 6.x(local) ou conta no MongoDB Atlas | Serve para armazenar, gerenciar e recuperar grandes volumes de dados. |
+| Git | qualquer | Controle de verção. |
 
 ---
 
 ## Instalação e configuração
 
+### 1) Clonar o repositório
+
+      git clone <url-do-repo>
+      cd Projeto-Final-Formacao-Full-Stack
+
+### 2) Instalar dependências
+
+      npm install
+
+### 3) Configurar variáveis de ambiente
+
+Copie o template e preencha com seus valores:
+
+    cp .env.env
+
+Edite o .env (ver Variaveis de ambiente).
+    
+### 4) Criar o banco no Atlas
+
+1. Crie um cluster gratuito em https://www.mongodb.com/cloud/atlas
+2. Crie um usuário de banco (Database Access)
+3. Libere seu IP em Network Access (0.0.0.0/0 para dev)
+4. Copie a connection string e cole em MONGO_URI
+      
 ---
 
 ## Como Executar o Projeto
@@ -126,6 +150,24 @@ no VS Code)
 1. Acesse a pasta /data_analysis
 2. Instale as bibliotecas: pip install pandas pymongo matplotlib python-dotenv
 3. Execute o script: python analysis.py
+
+---
+
+## Como Executar
+
+### Modo desenvolvimento (com auto-reload)
+
+      npm run dev
+
+### Modo produção
+
+      npm start
+
+### Em ambos os casos, o servidor:
+
+1. Conecta no MongoDB (mensagem 🍃 MongoDB Conectado com sucesso no console)
+2. Sobe o Express na porta configurada
+3. Tenta abrir http://localhost:5000 no navegador automaticamente
 
 ---
 
