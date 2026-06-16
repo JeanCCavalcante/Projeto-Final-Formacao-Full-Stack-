@@ -27,8 +27,8 @@ O pipeline cobre as etapas de:
 2. Validação e tratamento de qualidade de dados
 3. Transformação e criação de métricas
 4. Agregações para análise
-5. Visualização do Dashboard
-
+5. Visualização no Angular
+   
 Objetivo: Uma solução completa para gerenciamento de tarefas com foco em segurança, acessibilidade e análise de dados. 
 
 ---
@@ -102,7 +102,7 @@ Objetivo: Uma solução completa para gerenciamento de tarefas com foco em segur
 
 ## Como Executar o Projeto
 
-## 1) Pré-requisitos
+### 1) Pré-requisitos
 
 - Node.js instalado
 - Python 3.14 ou superior
