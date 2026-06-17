@@ -25,15 +25,15 @@ def carregar_e_processar_dados():
     
     tabela = pd.DataFrame(dados)
     
-    # ⏱️ 1. DATA DE CORTE FIEL AO NOTEBOOK (Evita datas exageradas)
+    # DATA DE CORTE FIEL (Evita datas exageradas)
     databcorte = pd.to_datetime('2026-05-31')
     
-    # 📅 2. CONVERSÃO DE DATAS
+    # CONVERSÃO DE DATAS
     tabela['data_criacao'] = pd.to_datetime(tabela.get('data_criacao'), errors='coerce')
     tabela['data_inicio'] = pd.to_datetime(tabela.get('data_inicio'), errors='coerce')
     tabela['data_conclusao'] = pd.to_datetime(tabela.get('data_conclusao'), errors='coerce')
 
-    # ⏳ 3. LÓGICA DE DURAÇÃO EM DIAS (Baseada estritamente na Data de Corte)
+    #  LÓGICA DE DURAÇÃO EM DIAS (Baseada  na Data de Corte)
     tabela['duracao_em_dias'] = np.nan
     
     # Tarefas Concluídas: Dias reais entre início e conclusão
@@ -48,19 +48,19 @@ def carregar_e_processar_dados():
     task_pendente = tabela['status_atual'] == 'pendente'
     tabela.loc[task_pendente, 'duracao_em_dias'] = (databcorte - tabela.loc[task_pendente, 'data_criacao']).dt.days
 
-    # ⏱️ 4. TEMPO NO BACKLOG
+    #  TEMPO NO BACKLOG
     tabela['tempo_no_backlog'] = np.where(
         tabela['status_atual'] == 'pendente',
         (databcorte - tabela['data_criacao']).dt.days,
         (tabela['data_inicio'] - tabela['data_criacao']).dt.days
     )
 
-    # 🎯 5. CÁLCULO DA META (Baseado no histórico real de concluídas por prioridade)
+    # CÁLCULO DA META (Baseado no histórico real de concluídas por prioridade)
     historico_geral = tabela[tabela['status_atual'] == 'concluida']
     media_por_prioridade = historico_geral.groupby('prioridade')['duracao_em_dias'].mean().round(1)
     tabela['meta_dias'] = tabela['prioridade'].map(media_por_prioridade)
 
-    # 🚦 6. DIAGNÓSTICO DE STATUS (Sem invenção de dados se a meta for NaN)
+    # DIAGNÓSTICO DE STATUS 
     def sinalizar_status_real(linha):
         dias = linha.get('duracao_em_dias')
         meta = linha.get('meta_dias')
@@ -81,7 +81,7 @@ def carregar_e_processar_dados():
     tabela['Diagnostico'] = tabela.apply(sinalizar_status_real, axis=1)
     tabela['dias_de_atraso'] = tabela['duracao_em_dias'] - tabela['meta_dias']
 
-    # 📊 7. EXTRAÇÃO DAS SPRINTS (Essencial para o Gráfico de Dispersão)
+    #  EXTRAÇÃO DAS SPRINTS ()
     if 'titulo' in tabela.columns:
         tabela['sprint_num'] = tabela['titulo'].str.extract(r'Sprint (\d+)').fillna(0).astype(int)
         tabela['nome_sprint'] = tabela['titulo'].str.extract(r'(Sprint \d+)').fillna('Sem Sprint')
@@ -90,7 +90,6 @@ def carregar_e_processar_dados():
         tabela['nome_sprint'] = 'Sem Sprint'
 
     return tabela
-
 @app.get("/metrics")
 def obter_metricas():
     tabela = carregar_e_processar_dados()
@@ -98,102 +97,69 @@ def obter_metricas():
     
     dashboard_data = {}
     
-    # Funções auxiliares para limpar nulos e manter o JSON válido
-    def safe_float(val): return float(val) if pd.notna(val) else None
-    def safe_int(val): return int(val) if pd.notna(val) else None
-    def df_to_clean_dict(df): return df.where(pd.notnull(df), None).to_dict(orient='records')
+    # Funções auxiliares
+    def safe_float(val): return float(val) if pd.notna(val) else 0.0
+    def safe_int(val): return int(val) if pd.notna(val) else 0
 
-    # =========================================================================
-    # VISÃO GERAL (PAINEL DO MENTOR)
-    # =========================================================================
-    concluidas_equipe = tabela[tabela['status_atual'] == 'concluida']
-    media_equipe = safe_float(concluidas_equipe['duracao_em_dias'].mean()) or 0.0
-    
-    status_qtd = tabela['status_atual'].value_counts()
-    status_pct = (status_qtd / status_qtd.sum() * 100).round(1)
-    pendentes_por_area = tabela[tabela['status_atual'].isin(['andamento', 'pendente'])]['area_atuacao'].value_counts()
+    def calcular_saude_estimativas(df):
+        concluidas = df[df['status_atual'] == 'concluida']
+        if concluidas.empty: return 100.0
+        no_prazo = concluidas[concluidas['duracao_em_dias'] <= concluidas['meta_dias']]
+        return round((len(no_prazo) / len(concluidas)) * 100, 1)
 
-    dashboard_data['visao_geral_equipe'] = {
+    # 1. VISÃO GERAL
+    concluidas_geral = tabela[tabela['status_atual'] == 'concluida']
+    df_sprints_geral = concluidas_geral.groupby('sprint_num').agg({'nome_sprint': 'first', 'duracao_em_dias': 'mean', 'meta_dias': 'mean'}).sort_values('sprint_num')
+
+    dashboard_data['visao_geral'] = {
         "cards": {
-            "tempo_medio_execucao_geral_dias": safe_float(tabela['duracao_em_dias'].mean()),
-            "mediana_tempo_geral_dias": safe_float(tabela['duracao_em_dias'].median()),
-            "tarefa_mais_demorada_equipe_dias": safe_float(tabela['duracao_em_dias'].max())
+            "foco_atual_qtd": len(tabela[tabela['status_atual'] == 'andamento']),
+            "ritmo_jornada_dias": safe_float(concluidas_geral['duracao_em_dias'].mean().round(1) if not concluidas_geral.empty else 0),
+            "pontos_destrava_qtd": len(tabela[tabela['Diagnostico'].str.contains('🔴', na=False, regex=False)]),
+            "saude_estimativas_pct": safe_float(calcular_saude_estimativas(tabela))
         },
-        "grafico_pizza_status_geral": [
-            {"status": s, "quantidade": safe_int(q), "percentual": safe_float(p)}
-            for s, q, p in zip(status_qtd.index, status_qtd.values, status_pct.values)
-        ],
-        "grafico_gargalos_por_area": [
-            {"area": a, "quantidade_tarefas_ativas": safe_int(q)}
-            for a, q in zip(pendentes_por_area.index, pendentes_por_area.values)
-        ],
-        "tabela_mentores_status": [
-            {"mentor": str(mentor), "status_tarefas": row.to_dict()}
-            for mentor, row in pd.crosstab(tabela['mentor_responsavel'], tabela['status_atual']).iterrows()
-        ]
+        "grafico_esforco": {
+            "titulo": "Distribuição do Esforço Atual",
+            "dados": [{"status": str(s), "quantidade": safe_int(q)} for s, q in tabela['status_atual'].value_counts().items()]
+        },
+        "grafico_ritmo": {
+            "titulo": "Evolução do Ritmo (Sprints)",
+            "series": {
+                "sprints": df_sprints_geral['nome_sprint'].tolist(),
+                "dias_gastos": [round(x, 1) for x in df_sprints_geral['duracao_em_dias'].tolist()],
+                "meta_esperada": [round(x, 1) for x in df_sprints_geral['meta_dias'].tolist()]
+            }
+        }
     }
 
-    # =========================================================================
-    # Mentorada
+    # 2. VISÃO MENTORADA (Loop pelos alunos)
+    dashboard_data['visao_mentorada'] = {}
+    lista_mentorados = tabela['mentorado'].dropna().unique()
 
-    lista_mentorados = [m for m in tabela['mentorado'].unique() if pd.notna(m)]
-    mentorados_detalhes = {}
-    
     for nome in lista_mentorados:
-        tabela_m = tabela[tabela['mentorado'] == nome].copy()
+        tabela_m = tabela[tabela['mentorado'] == nome]
+        concluidas_m = tabela_m[tabela_m['status_atual'] == 'concluida']
+        df_sprints_m = concluidas_m.groupby('sprint_num').agg({'nome_sprint': 'first', 'duracao_em_dias': 'mean', 'meta_dias': 'mean'}).sort_values('sprint_num')
         
-        # 🎯 DADOS PARA O GRÁFICO DE DISPERSÃO (Apenas tarefas Concluídas)
-        df_plot = tabela_m[tabela_m['status_atual'] == 'concluida'].copy()
-        df_plot = df_plot.sort_values('sprint_num')
-        
-        pontos_dispersao = [
-            {
-                "titulo_tarefa": str(linha['titulo']),
-                "sprint_sequencial": safe_int(linha['sprint_num']),
-                "nome_sprint": str(linha['nome_sprint']),
-                "dias_gastos_reais": safe_float(linha['duracao_em_dias']),
-                "meta_esperada_dias": safe_float(linha['meta_dias']),
-                "prioridade": str(linha['prioridade'])
-            }
-            for _, linha in df_plot.iterrows()
-        ]
-        
-        # Separando Tabelas Auxiliares de Atividades Ativas
-        ativas_m = tabela_m[tabela_m['status_atual'].isin(['andamento', 'pendente'])].copy()
-        colunas_export = ['titulo', 'prioridade', 'status_atual', 'duracao_em_dias', 'meta_dias', 'Diagnostico']
-        
-        if not ativas_m.empty:
-            ativas_m = ativas_m.sort_values(by='dias_de_atraso', ascending=False)
-            ativas_m['Diagnostico_str'] = ativas_m['Diagnostico'].fillna('')
-            tabela_criticas = ativas_m[ativas_m['Diagnostico_str'].str.contains('🔴|🟡')][colunas_export]
-            tabela_saudaveis = ativas_m[ativas_m['Diagnostico_str'].str.contains('🟢|⚪')][colunas_export]
-        else:
-            tabela_criticas = pd.DataFrame(columns=colunas_export)
-            tabela_saudaveis = pd.DataFrame(columns=colunas_export)
-        
-        st_qtd_m = tabela_m['status_atual'].value_counts()
-        st_pct_m = (st_qtd_m / st_qtd_m.sum() * 100).round(1)
-
-        mentorados_detalhes[nome] = {
+        dashboard_data['visao_mentorada'][nome] = {
             "cards": {
-                "tempo_backlog_mediana_dias": safe_float(tabela_m['tempo_no_backlog'].median()),
-                "total_atividades_submetidas": safe_int(len(tabela_m)),
-                "tempo_medio_conclusao_dias": safe_float(tabela_m[tabela_m['status_atual'] == 'concluida']['duracao_em_dias'].mean()),
-                "atividades_em_andamento_atual": safe_int(len(tabela_m[tabela_m['status_atual'] == 'andamento']))
+                "foco_atual_qtd": len(tabela_m[tabela_m['status_atual'] == 'andamento']),
+                "ritmo_jornada_dias": safe_float(concluidas_m['duracao_em_dias'].mean().round(1) if not concluidas_m.empty else 0),
+                "pontos_destrava_qtd": len(tabela_m[tabela_m['Diagnostico'].str.contains('🔴', na=False, regex=False)]),
+                "saude_estimativas_pct": safe_float(calcular_saude_estimativas(tabela_m))
             },
-            "grafico_pizza_status": [
-                {"status": s, "quantidade": safe_int(q), "percentual": safe_float(p)}
-                for s, q, p in zip(st_qtd_m.index, st_qtd_m.values, st_pct_m.values)
-            ],
-            # Estrutura perfeita para plotar o Gráfico de Dispersão no Angular (com a linha de referência da equipe)
-            "grafico_dispersao_evolucao": {
-                "linha_referencia_media_equipe_dias": safe_float(media_equipe),
-                "pontos_entregas": pontos_dispersao
+            "grafico_esforco": {
+                "titulo": "Distribuição do Esforço Atual",
+                "dados": [{"status": str(s), "quantidade": safe_int(q)} for s, q in tabela_m['status_atual'].value_counts().items()]
             },
-            "tabela_atividades_criticas": df_to_clean_dict(tabela_criticas),
-            "tabela_atividades_saudaveis": df_to_clean_dict(tabela_saudaveis)
+            "grafico_ritmo": {
+                "titulo": "Evolução do Ritmo (Sprints)",
+                "series": {
+                    "sprints": df_sprints_m['nome_sprint'].tolist(),
+                    "dias_gastos": [round(x, 1) for x in df_sprints_m['duracao_em_dias'].tolist()],
+                    "meta_esperada": [round(x, 1) for x in df_sprints_m['meta_dias'].tolist()]
+                }
+            }
         }
         
-    dashboard_data['visao_individual_mentorada'] = mentorados_detalhes
-    
     return dashboard_data
