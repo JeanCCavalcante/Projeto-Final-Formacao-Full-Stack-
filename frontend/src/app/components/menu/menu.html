@@ -1,0 +1,15 @@
+@if (loggedUser(); as loggedUser) {
+<app-avatar [loggedUserName]="loggedUser.name" [matMenuTriggerFor]="toolbarMenu"
+    (click)="openToolbarMenu()"></app-avatar>
+<mat-menu #toolbarMenu="matMenu">
+    <hgroup>
+        <h6>{{ loggedUser.name }}</h6>
+        <p>{{ loggedUser.role | titlecase }}</p>
+    </hgroup>
+    <mat-divider></mat-divider>
+    <button mat-menu-item type="button" (click)="signOut()">
+        <mat-icon svgIcon="ph-light:sign-out"></mat-icon>
+        <span>Sair</span>
+    </button>
+</mat-menu>
+}

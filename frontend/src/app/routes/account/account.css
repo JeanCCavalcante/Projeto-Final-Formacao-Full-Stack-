@@ -1,0 +1,98 @@
+@media (min-width: 900px) {
+  mat-card.account.info,
+  mat-card.account.form {
+    width: calc(
+      100% * 6 / var(--grid-columns) - (var(--grid-columns) - 6) *
+        (var(--grid-column-spacing) / var(--grid-columns))
+    ) !important;
+  }
+}
+
+@media (min-width: 1200px) {
+  mat-card.account.info {
+    width: calc(
+      100% * 4 / var(--grid-columns) - (var(--grid-columns) - 4) *
+        (var(--grid-column-spacing) / var(--grid-columns))
+    ) !important;
+  }
+
+  mat-card.account.form {
+    width: calc(
+      100% * 8 / var(--grid-columns) - (var(--grid-columns) - 4) *
+        (var(--grid-column-spacing) / var(--grid-columns))
+    ) !important;
+  }
+}
+
+mat-card.account {
+  height: fit-content;
+
+  & mat-card-header.info {
+    padding: 32px 0 calc(var(--custom-spacing) * 2) 0;
+
+    & img[mat-card-avatar][mat-card-sm-image] {
+      border-top-left-radius: 50%;
+      border-top-right-radius: 50%;
+      margin: 0 auto;
+    }
+  }
+  & mat-card-content.info {
+    display: flex;
+    flex-direction: column;
+    gap: var(--custom-spacing);
+    padding-bottom: 32px;
+    text-align: center;
+
+    & h5 {
+      font-size: 1.5rem;
+      font-weight: 500;
+      line-height: 1.2;
+      margin: 0;
+    }
+    & p {
+      color: #667085;
+      font-size: 0.875rem;
+      font-weight: 400;
+      line-height: 1.57;
+    }
+  }
+  & mat-card-content.form {
+    & > form,
+    & .half-width {
+      display: grid;
+      gap: calc(var(--custom-spacing) * 3);
+
+      & .half-width {
+        grid-template-columns: repeat(2, auto);
+      }
+
+      & mat-form-field {
+        height: fit-content;
+      }
+    }
+  }
+  & mat-card-actions {
+    & > button.info[matButton] {
+      width: 100%;
+    }
+
+    & > button.form[matButton='filled'] {
+      min-width: 64px;
+      padding: 8px 20px;
+    }
+  }
+  &.info {
+    flex-basis: auto;
+    flex-grow: 0;
+    width: 100%;
+  }
+  &.form {
+    flex-basis: auto;
+    flex-grow: 0;
+    width: 100%;
+  }
+}
+
+app-avatar {
+  margin: 0 auto;
+}

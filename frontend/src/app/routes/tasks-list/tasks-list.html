@@ -1,0 +1,69 @@
+<div class="actions-bar">
+    <button matButton="filled" (click)="openTaskForm()">
+        Nova tarefa
+    </button>
+</div>
+
+<section class="tasks-cards">
+    @if (paginatedTasks().length === 0) {
+    <p>Nenhuma tarefa encontrada</p>
+    } @else {
+    @for (task of paginatedTasks(); track task._id) {
+    <mat-card class="tasks task-card">
+        <mat-card-header>
+            <mat-card-title>{{ task.title | titlecase}}</mat-card-title>
+            <mat-card-subtitle>
+            </mat-card-subtitle>
+        </mat-card-header>
+
+        <mat-card-content>
+            <p>{{ task.description }}</p>
+            <div class="details">
+                <div class="info">
+                    <span>Mentor: {{ task.mentorResponsible }}</span>
+                </div>
+                <div class="info">
+                    <span>Início: {{ task.startDate | date:'dd/MM/yyyy' }}</span>
+                </div>
+                @if (task.completionDate) {
+                <div class="info">
+                    <span>Conclusão: {{ task.completionDate | date:'dd/MM/yyyy' }}</span>
+                </div>
+                }
+                @if (task.feedback) {
+                <div class="feedback">
+                    <span>{{ task.feedback }}</span>
+                </div>
+                }
+            </div>
+        </mat-card-content>
+        <mat-divider></mat-divider>
+        <mat-card-footer>
+            <div class="info">
+                <mat-chip-set role="list">
+                    <mat-chip role="listitem">
+                        Prioridade {{ getPriorityLabel(task.priority) }}
+                    </mat-chip>
+                    <mat-chip role="listitem">
+                        {{ getStatusLabel(task.status) }}
+                    </mat-chip>
+                </mat-chip-set>
+            </div>
+            <div class="info">
+                <button mat-icon-button (click)="editTask(task)">
+                    <mat-icon svgIcon="ph-light:pencil"></mat-icon>
+                </button>
+                <button mat-icon-button (click)="deleteTask(task._id)">
+                    <mat-icon svgIcon="ph-light:trash"></mat-icon>
+                </button>
+            </div>
+
+        </mat-card-footer>
+    </mat-card>
+    }
+    }
+</section>
+
+<mat-paginator [length]="taskListLength()" [pageSize]="pageSizeSignal()" hidePageSize="true"
+    (page)="onPageChange($event)">
+</mat-paginator>

@@ -1,0 +1,5 @@
+::ng-deep .mat-mdc-dialog-content {
+  display: flex;
+  flex-direction: column;
+  max-height: fit-content;
+}

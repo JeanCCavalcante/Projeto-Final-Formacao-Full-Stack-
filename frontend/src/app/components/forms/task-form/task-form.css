@@ -1,0 +1,35 @@
+mat-card-content {
+  display: grid;
+  gap: calc(var(--custom-spacing) * 3);
+  padding: 16px !important;
+}
+
+.half-width {
+  display: grid;
+  gap: calc(var(--custom-spacing) * 3);
+  grid-template-columns: repeat(2, auto);
+}
+
+mat-form-field {
+  height: fit-content;
+}
+
+form {
+  display: inline-flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.post-form {
+  margin: -16px auto -24px !important;
+
+  ::ng-deep label {
+    font-weight: 600;
+  }
+}
+
+::ng-deep .mat-mdc-dialog-content {
+  display: flex;
+  flex-direction: column;
+  max-height: fit-content;
+}

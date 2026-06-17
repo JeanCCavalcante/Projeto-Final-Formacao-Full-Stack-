@@ -1,0 +1,81 @@
+<mat-dialog-content>
+    <mat-card>
+        <mat-card-header>
+            <mat-card-title>{{ isEdit ? 'Editar tarefa' : 'Nova tarefa' }}</mat-card-title>
+            <mat-card-subtitle>Use o formulário abaixo para cadastrar ou editar uma tarefa</mat-card-subtitle>
+        </mat-card-header>
+        <mat-divider></mat-divider>
+        <form [formGroup]="taskForm" (ngSubmit)="onSubmit()">
+            <mat-card-content>
+                <mat-form-field>
+                    <mat-label>Título</mat-label>
+                    <input matInput formControlName="title" required autocomplete="off" />
+                    <mat-error>{{ getTitleErrorMessage() }}</mat-error>
+                </mat-form-field>
+
+                <mat-form-field>
+                    <mat-label>Descrição</mat-label>
+                    <textarea matInput rows="3" formControlName="description" required autocomplete="off"></textarea>
+                    <mat-error>{{ getDescriptionErrorMessage() }}</mat-error>
+                </mat-form-field>
+
+                <div class="half-width">
+                    <mat-form-field floatLabel="always">
+                        <mat-label>Prioridade</mat-label>
+                        <mat-select formControlName="priority" required>
+                            @for (priority of priorityOptions; track priority) {
+                            <mat-option [value]="priority.value">{{ priority.label }}</mat-option>
+                            }
+                        </mat-select>
+                        <mat-error>{{ getPriorityErrorMessage() }}</mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field floatLabel="always">
+                        <mat-label>Status</mat-label>
+                        <mat-select formControlName="status">
+                            @for (status of statusOptions; track status) {
+                            <mat-option [value]="status.value">{{ status.label }}</mat-option>
+                            }
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+
+                <mat-form-field>
+                    <mat-label>Mentor responsável</mat-label>
+                    <input matInput formControlName="mentorResponsible" required autocomplete="off" />
+                    <mat-error>{{ getMentorResponsibleErrorMessage() }}</mat-error>
+                </mat-form-field>
+
+                <div class="half-width">
+                    <mat-form-field>
+                        <mat-label>Data de início</mat-label>
+                        <input matInput [matDatepicker]="startPicker" formControlName="startDate" required>
+                        <mat-datepicker-toggle matIconSuffix [for]="startPicker"></mat-datepicker-toggle>
+                        <mat-datepicker #startPicker></mat-datepicker>
+                        <mat-error>{{ getDateErrorMessage() }}</mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field>
+                        <mat-label>Data de conclusão</mat-label>
+                        <input matInput [matDatepicker]="completionPicker" formControlName="completionDate">
+                        <mat-datepicker-toggle matIconSuffix [for]="completionPicker"></mat-datepicker-toggle>
+                        <mat-datepicker #completionPicker></mat-datepicker>
+                    </mat-form-field>
+                </div>
+
+                <mat-form-field>
+                    <mat-label>Feedback de conclusão</mat-label>
+                    <textarea matInput rows="2" formControlName="feedback" autocomplete="off"></textarea>
+                    <mat-error>{{ getFeedbackErrorMessage() }}</mat-error>
+                </mat-form-field>
+            </mat-card-content>
+            <mat-divider></mat-divider>
+            <mat-card-actions>
+                <button matButton="outlined" type="button" (click)="dialogRef.close()">Cancelar</button>
+                <button matButton="filled" type="submit" [disabled]="taskForm.invalid">
+                    {{ `${isEdit ? 'Editar' : 'Cadastrar'} tarefa` }}
+                </button>
+            </mat-card-actions>
+        </form>
+    </mat-card>
+</mat-dialog-content>
