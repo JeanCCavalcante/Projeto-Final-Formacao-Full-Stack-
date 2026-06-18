@@ -43,7 +43,7 @@ Objetivo: Uma solução completa para gerenciamento de tarefas com foco em segur
 
 ### Visão Geral
 
-![Dashboard - Visão Geral](assets/v1.jpg)
+<img width="874" height="423" alt="Image" src="https://github.com/user-attachments/assets/ef65adcc-8238-43c2-acdd-78a6b78503d1" />
 
 ### Análise por Fornecedor
 
