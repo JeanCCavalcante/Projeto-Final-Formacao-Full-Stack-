@@ -45,9 +45,9 @@ Objetivo: Uma solução completa para gerenciamento de tarefas com foco em segur
 
 <img width="874" height="423" alt="Image" src="https://github.com/user-attachments/assets/ef65adcc-8238-43c2-acdd-78a6b78503d1" />
 
-### Análise por Fornecedor
+### Visão Mentorado
 
-![Dashboard - Fornecedor](assets/v2.jpg)
+<img width="870" height="421" alt="Image" src="https://github.com/user-attachments/assets/a4139cf6-6246-42ed-8b05-dfac152601a9" />
 
 ### Análise por Pagamento
 
