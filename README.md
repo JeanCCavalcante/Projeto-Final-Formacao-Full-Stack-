@@ -35,7 +35,7 @@ Objetivo: Uma solução completa para gerenciamento de tarefas com foco em segur
 
 ## Arquitetura do Pipeline
 
-<img width="3200" height="1100" alt="Image" src="https://github.com/user-attachments/assets/9350511e-cc7c-4b2b-89d8-089570fada60" />
+<img width="755" height="341" alt="Image" src="https://github.com/user-attachments/assets/7d5a52ec-6b14-41fb-8e13-b6ae261aea88" />
 
 ---
 
