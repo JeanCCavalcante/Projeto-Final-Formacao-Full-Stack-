@@ -49,13 +49,10 @@ Objetivo: Uma solução completa para gerenciamento de tarefas com foco em segur
 
 <img width="870" height="421" alt="Image" src="https://github.com/user-attachments/assets/a4139cf6-6246-42ed-8b05-dfac152601a9" />
 
-### Análise por Pagamento
+### Lista de Tarefas
 
-![Dashboard - Pagamento](assets/v3.jpg)
+<img width="875" height="437" alt="Image" src="https://github.com/user-attachments/assets/1b639b7b-1f2c-4e0a-b415-bd35dc3ed9cd" />
 
-### Análise por Dia da Semana
-
-![Dashboard - Dia da Semana](assets/v4.jpg)
 
 ---
 
