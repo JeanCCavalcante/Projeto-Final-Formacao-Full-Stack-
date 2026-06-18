@@ -1,7 +1,13 @@
-import { Component, OnDestroy } from '@angular/core';
-import { MatTableDataSource } from '@angular/material/table';
-import { Subject, Observable } from 'rxjs';
-import { AuthService } from '../../services/auth';
+import { Component, computed, inject, OnDestroy, OnInit, signal } from '@angular/core';
+
+import { MatTabChangeEvent } from '@angular/material/tabs';
+
+import { Subject, takeUntil } from 'rxjs';
+
+import { AnalyticsResponse, CardMetrics, EffortData, RitmoChart } from '../../models/analytics';
+import { AnalyticsService } from '../../services/analytics';
+import { AuthStateService } from '../../services/auth-state';
+import { NotificationService } from '../../services/notification';
 
 @Component({
   selector: 'app-analytics',
@@ -9,129 +15,135 @@ import { AuthService } from '../../services/auth';
   templateUrl: './analytics.html',
   styleUrl: './analytics.css',
 })
-export class Analytics implements OnDestroy {
+export class Analytics implements OnInit, OnDestroy {
   private readonly destroy$ = new Subject<void>();
-  /*   latestOrders$: Observable<LatestOrder[]> | null = null;
-  latestProducts$: Observable<LatestProduct[]> | null = null; */
+  private readonly analyticsService = inject(AnalyticsService);
+  private readonly authStateService = inject(AuthStateService);
+  private readonly notification = inject(NotificationService);
 
-  isLoggedIn: boolean = false;
+  isMentor = this.authStateService.isMentor;
+  isLoading = signal(true);
 
-  budgetPercent: number = 0;
-  totalCustomersPercent: number = 0;
+  selectedMentee = signal<string | null>(null);
+  menteeNames = computed(() => {
+    const data = this.generalData();
+    return data ? Object.keys(data.visao_mentorada) : [];
+  });
 
-  /*  columns = [
-    {
-      columnDef: 'order',
-      header: 'Order',
-      cell: (element: LatestOrder) => `${element.id}`,
-    },
-    {
-      columnDef: 'customer',
-      header: 'Customer',
-      cell: (element: LatestOrder) => `${element.customer}`,
-    },
-    {
-      columnDef: 'dateOrdered',
-      header: 'Date',
-      cell: (element: LatestOrder) => `${element.orderDate}`,
-    },
-    {
-      columnDef: 'status',
-      header: 'Status',
-      cell: (element: LatestOrder) => `${element.status}`,
-    },
-  ]; */
+  selectedTabIndex = computed(() => {
+    const selected = this.selectedMentee();
+    if (selected === null) return 0;
+    const names = this.menteeNames();
+    const index = names.indexOf(selected);
+    return index === -1 ? 0 : index + 1;
+  });
 
-  /*   dataSource: MatTableDataSource<LatestOrder> = new MatTableDataSource<LatestOrder>([]);
-  displayedColumns: Array<string> = [];
-  headers: Array<string> = this.columns.map((column) => column.columnDef); */
+  generalData = signal<AnalyticsResponse | null>(null);
 
-  /*  get budget() {
-    return this.overviewInfo.budget;
-  }
+  displayedCards = computed<CardMetrics | null>(() => {
+    const data = this.generalData();
+    if (!data) return null;
 
-  get totalCustomers() {
-    return this.overviewInfo.totalCustomers;
-  }
+    if (this.isMentor()) {
+      const mentee = this.selectedMentee();
+      if (mentee && data.visao_mentorada[mentee]) {
+        return data.visao_mentorada[mentee].cards;
+      }
+      return data.visao_geral?.cards ?? null;
+    } else {
+      const user = this.authStateService.loggedUser();
+      const menteeName = user?.name;
+      if (menteeName && data.visao_mentorada[menteeName]) {
+        return data.visao_mentorada[menteeName].cards;
+      }
+      return null;
+    }
+  });
 
-  get taskProgress() {
-    return this.overviewInfo.taskProgress;
-  }
+  displayedEffort = computed<EffortData[]>(() => {
+    const data = this.generalData();
+    if (!data) return [];
 
-  get totalProfit() {
-    return this.overviewInfo.totalProfit;
-  }
+    if (this.isMentor()) {
+      const mentee = this.selectedMentee();
+      if (mentee && data.visao_mentorada[mentee]) {
+        return data.visao_mentorada[mentee].grafico_esforco.dados;
+      }
+      return data.visao_geral?.grafico_esforco.dados ?? [];
+    } else {
+      const user = this.authStateService.loggedUser();
+      const menteeName = user?.name;
+      if (menteeName && data.visao_mentorada[menteeName]) {
+        return data.visao_mentorada[menteeName].grafico_esforco.dados;
+      }
+      return [];
+    }
+  });
 
-  get trafficSource() {
-    return {
-      desktop: this.overviewInfo.trafficSource.desktop,
-      tablet: this.overviewInfo.trafficSource.tablet,
-      phone: this.overviewInfo.trafficSource.phone,
-    };
-  }
+  displayedRitmo = computed<RitmoChart | null>(() => {
+    const data = this.generalData();
+    if (!data) return null;
 
-  valueFormatter(value: number) {
+    if (this.isMentor()) {
+      const mentee = this.selectedMentee();
+      if (mentee && data.visao_mentorada[mentee]) {
+        return data.visao_mentorada[mentee].grafico_ritmo;
+      }
+      return data.visao_geral?.grafico_ritmo ?? null;
+    } else {
+      const user = this.authStateService.loggedUser();
+      const menteeName = user?.name;
+      if (menteeName && data.visao_mentorada[menteeName]) {
+        return data.visao_mentorada[menteeName].grafico_ritmo;
+      }
+      return null;
+    }
+  });
+
+  valueFormatter(value: number): string {
     return value > 999 ? Math.round(value / 100) / 10 + 'k' : value.toString();
   }
 
-  percentChange(a: number, b: number) {
-    if (!a || !b) {
-      return 0;
+  onTabChange(event: MatTabChangeEvent): void {
+    const index = event.index;
+    if (index === 0) {
+      this.selectMentee(null);
+    } else {
+      const names = this.menteeNames();
+      const menteeName = names[index - 1] || null;
+      this.selectMentee(menteeName);
     }
-    const percent = ((b - a) / a) * 100;
-    return Math.floor(percent);
-  } */
+  }
 
-  /*   ngOnInit(): void {
-    this.overviewService
-      .fetchOverviewInfo()
-      .pipe(
-        map((overview: OverviewInfo) => {
-          this.overviewInfo = overview;
-          this.overviewInfo.taskProgress = Math.floor(this.overviewInfo.taskProgress);
-          this.overviewInfo.trafficSource = {
-            desktop: Math.floor(this.overviewInfo.trafficSource.desktop),
-            tablet: Math.floor(this.overviewInfo.trafficSource.tablet),
-            phone: Math.floor(this.overviewInfo.trafficSource.phone),
-          };
-          this.budgetPercent = this.percentChange(
-            this.overviewInfo.budget.current,
-            this.overviewInfo.budget.lastMonth
-          );
-          this.totalCustomersPercent = this.percentChange(
-            this.overviewInfo.totalCustomers.current,
-            this.overviewInfo.totalCustomers.lastMonth
-          );
-        }),
-        takeUntil(this.destroy$)
-      )
-      .subscribe();
+  ngOnInit(): void {
+    this.analyticsService
+      .getAnalytics()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (data) => {
+          this.generalData.set(data);
+          this.isLoading.set(false);
 
-    this.overviewService
-      .fetchOrders(6)
-      .pipe(
-        map((orders: LatestOrder[]) => (this.dataSource.data = orders)),
-        takeUntil(this.destroy$)
-      )
-      .subscribe();
+          if (this.isMentor()) {
+            this.selectedMentee.set(null);
+          } else {
+            const user = this.authStateService.loggedUser();
+            if (user?.name && data.visao_mentorada[user.name]) {
+              this.selectedMentee.set(user.name);
+            }
+          }
+        },
+        error: (err) => {
+          this.notification.showError('Failed to load analytics data.');
+          console.error(err);
+          this.isLoading.set(false);
+        },
+      });
+  }
 
-    this.overviewService
-      .fetchSalesInfo()
-      .pipe(
-        map((sales: SalesInfo) => {
-          this.salesInfo = {
-            currentYear: sales.currentYear.map((current) => Math.floor(current)),
-            lastYear: sales.lastYear.map((last) => Math.floor(last)),
-          };
-        }),
-        takeUntil(this.destroy$)
-      )
-      .subscribe();
-
-    this.latestProducts$ = this.overviewService.fetchProducts(5);
-
-    this.displayedColumns.push(...this.headers);
-  } */
+  selectMentee(name: string | null): void {
+    this.selectedMentee.set(name);
+  }
 
   ngOnDestroy(): void {
     this.destroy$.next();

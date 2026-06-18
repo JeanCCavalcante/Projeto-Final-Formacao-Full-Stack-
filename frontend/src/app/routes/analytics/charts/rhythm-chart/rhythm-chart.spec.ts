@@ -1,17 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { PieChart } from './donut-chart';
+import { RhythmChart } from './rhythm-chart';
 
-describe('PieChart', () => {
-  let component: PieChart;
-  let fixture: ComponentFixture<PieChart>;
+describe('RhythmChart', () => {
+  let component: RhythmChart;
+  let fixture: ComponentFixture<RhythmChart>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [PieChart],
-    }).compileComponents();
+      declarations: [RhythmChart]
+    })
+    .compileComponents();
 
-    fixture = TestBed.createComponent(PieChart);
+    fixture = TestBed.createComponent(RhythmChart);
     component = fixture.componentInstance;
     await fixture.whenStable();
   });

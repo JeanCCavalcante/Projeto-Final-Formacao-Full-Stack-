@@ -25,25 +25,27 @@ import { Menu } from './components/menu/menu';
 import { authInterceptor } from './interceptors/auth-interceptor';
 import { Account } from './routes/account/account';
 import { Analytics } from './routes/analytics/analytics';
-import { BarChart } from './routes/analytics/charts/bar-chart/bar-chart';
-import { DonutChart } from './routes/analytics/charts/donut-chart/donut-chart';
+import { AnalyticsContent } from './routes/analytics/analytics-content/analytics-content';
+import { EffortChart } from './routes/analytics/charts/effort-chart/effort-chart';
+import { RhythmChart } from './routes/analytics/charts/rhythm-chart/rhythm-chart';
 import { TasksList } from './routes/tasks-list/tasks-list';
 
 @NgModule({
   declarations: [
-    App,
-    Menu,
-    Analytics,
     Account,
-    BarChart,
-    DonutChart,
+    App,
+    Avatar,
+    Analytics,
+    AnalyticsContent,
+    EffortChart,
     Login,
+    Logo,
+    Menu,
     Register,
-    UserForm,
+    RhythmChart,
     TaskForm,
     TasksList,
-    Logo,
-    Avatar,
+    UserForm,
   ],
   imports: [
     AppRoutingModule,

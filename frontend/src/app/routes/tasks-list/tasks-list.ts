@@ -15,12 +15,12 @@ import { PageEvent } from '@angular/material/paginator';
 
 import { TaskForm } from '../../components/forms/task-form/task-form';
 import { MODAL_OPTIONS } from '../../constants/modal';
-import { TaskPriorityEnum, TaskStatusEnum } from '../../enums/select-mapping';
+import { RoleEnum, TaskPriorityEnum, TaskStatusEnum } from '../../enums/select-mapping';
 import { Task } from '../../models/tasks';
 import { AuthStateService } from '../../services/auth-state';
+import { NotificationService } from '../../services/notification';
 import { TasksService } from '../../services/tasks';
 import { TasksStateService } from '../../services/tasks-state';
-import { NotificationService } from '../../services/notification';
 
 @Component({
   selector: 'app-tasks-list',
@@ -35,6 +35,9 @@ export class TasksList implements OnInit, OnDestroy {
   private readonly pageIndexSignal = signal(0);
   protected readonly pageSizeSignal = signal(6);
 
+  protected readonly loggedUser = inject(AuthStateService).loggedUser();
+  protected readonly isMentor = RoleEnum.MENTOR;
+
   private readonly authState = inject(AuthStateService);
   private readonly notificationService = inject(NotificationService);
   private readonly tasksService = inject(TasksService);
@@ -48,6 +51,8 @@ export class TasksList implements OnInit, OnDestroy {
     const start = this.pageIndexSignal() * this.pageSizeSignal();
     return tasks.slice(start, start + this.pageSizeSignal());
   });
+
+  showFeedback = false;
 
   ngOnInit(): void {
     if (this.authState.isLoggedIn()) {

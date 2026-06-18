@@ -3,6 +3,7 @@ body {
   color: var(--mat-sys-on-surface);
   color-scheme: light;
   font: var(--mat-sys-body-medium);
+  font-optical-sizing: none;
   height: 100%;
   letter-spacing: 0;
   line-height: 1.5;
@@ -14,7 +15,6 @@ main {
   margin-left: auto;
   margin-right: auto;
   padding: 64px calc(3 * var(--custom-spacing));
-  width: 90vw;
 }
 p {
   font: var(--mat-sys-body-large);
@@ -62,26 +62,12 @@ mat-card-actions:has(> button[matButton='filled']) {
 }
 app-account,
 app-tasks,
-app-overview {
+app-analytics,
+app-analytics-content {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
   gap: calc(var(--custom-spacing) * 3);
   min-width: 0;
-}
-
-.snackbar-success {
-  background-color: #4caf50 !important;
-  color: #fff !important;
-  .mat-simple-snackbar-action {
-    color: #fff !important;
-  }
-}
-
-.snackbar-error {
-  background-color: #f44336 !important;
-  color: #fff !important;
-  .mat-simple-snackbar-action {
-    color: #fff !important;
-  }
+  padding: var(--custom-spacing);
 }

@@ -1,12 +1,12 @@
-<div class="actions-bar">
-    <button matButton="filled" (click)="openTaskForm()">
+<header>
+    <button matButton="filled" (click)="openTaskForm()" [disabled]="loggedUser?.role == isMentor">
         Nova tarefa
     </button>
-</div>
+</header>
 
 <section class="tasks-cards">
     @if (paginatedTasks().length === 0) {
-    <p>Nenhuma tarefa encontrada</p>
+    <p>Nenhuma tarefa encontrada!</p>
     } @else {
     @for (task of paginatedTasks(); track task._id) {
     <mat-card class="tasks task-card">
@@ -16,54 +16,42 @@
             </mat-card-subtitle>
         </mat-card-header>
 
-        <mat-card-content>
-            <p>{{ task.description }}</p>
-            <div class="details">
-                <div class="info">
-                    <span>Mentor: {{ task.mentorResponsible }}</span>
-                </div>
-                <div class="info">
-                    <span>Início: {{ task.startDate | date:'dd/MM/yyyy' }}</span>
-                </div>
-                @if (task.completionDate) {
-                <div class="info">
-                    <span>Conclusão: {{ task.completionDate | date:'dd/MM/yyyy' }}</span>
-                </div>
-                }
-                @if (task.feedback) {
-                <div class="feedback">
-                    <span>{{ task.feedback }}</span>
-                </div>
-                }
+        <mat-card-content class="card-content">
+            <div style="display: flex;
+            justify-content: flex-end;
+            flex-direction: row;
+            gap: var(--custom-spacing);
+            margin-bottom: var(--custom-spacing);">
+                <mat-chip selected>
+                    {{ getPriorityLabel(task.priority) | lowercase }}
+                </mat-chip>
+                <mat-chip selected>
+                    {{ getStatusLabel(task.status) | lowercase }}
+                </mat-chip>
+            </div>
+            <p class="description">{{ task.description }}</p>
+            <div class="feedback">
+                <p style="font: var(--mat-sys-label-medium);
+                letter-spacing: var(--mat-sys-label-medium-tracking);"><strong>Feedback:</strong> {{ task.feedback }}
+                </p>
             </div>
         </mat-card-content>
         <mat-divider></mat-divider>
-        <mat-card-footer>
-            <div class="info">
-                <mat-chip-set role="list">
-                    <mat-chip role="listitem">
-                        Prioridade {{ getPriorityLabel(task.priority) }}
-                    </mat-chip>
-                    <mat-chip role="listitem">
-                        {{ getStatusLabel(task.status) }}
-                    </mat-chip>
-                </mat-chip-set>
-            </div>
-            <div class="info">
-                <button mat-icon-button (click)="editTask(task)">
-                    <mat-icon svgIcon="ph-light:pencil"></mat-icon>
-                </button>
-                <button mat-icon-button (click)="deleteTask(task._id)">
-                    <mat-icon svgIcon="ph-light:trash"></mat-icon>
-                </button>
-            </div>
-
-        </mat-card-footer>
+        <mat-card-actions align="end">
+            <button mat-icon-button (click)="editTask(task)">
+                <mat-icon svgIcon="ph-duotone:pencil"></mat-icon>
+            </button>
+            <button mat-icon-button (click)="deleteTask(task._id)">
+                <mat-icon svgIcon="ph-duotone:trash"></mat-icon>
+            </button>
+        </mat-card-actions>
     </mat-card>
     }
     }
 </section>
 
+@if (paginatedTasks().length !== 0) {
 <mat-paginator [length]="taskListLength()" [pageSize]="pageSizeSignal()" hidePageSize="true"
     (page)="onPageChange($event)">
 </mat-paginator>
+}

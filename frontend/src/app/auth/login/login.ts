@@ -46,7 +46,6 @@ export class Login implements OnDestroy {
         .subscribe({
           next: () => {
             this.notificationService.showSuccess('Login realizado com sucesso!');
-            this.router.navigateByUrl('/tasks');
             this.dialogRef.close();
           },
           error: (error) => {

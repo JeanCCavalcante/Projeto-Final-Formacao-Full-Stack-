@@ -2,6 +2,7 @@ import { Injectable, signal, WritableSignal, computed, inject } from '@angular/c
 
 import { StorageService } from './storage';
 import { LoggedUser, UserProfileUpdate } from '../models/users';
+import { RoleEnum } from '../enums/select-mapping';
 
 @Injectable({ providedIn: 'root' })
 export class AuthStateService {
@@ -14,6 +15,8 @@ export class AuthStateService {
     const expiration = this.storageService.getExpiration();
     return expiration ? Date.now() < expiration : false;
   });
+
+  public readonly isMentor = computed(() => this.loggedUser()?.role === RoleEnum.MENTOR);
 
   public setUser(profile: LoggedUser): void {
     this.userSignal.set(profile);

@@ -6,7 +6,6 @@
     ) !important;
   }
 }
-
 @media (min-width: 1200px) {
   section.tasks-cards > mat-card.tasks.task-card {
     width: calc(
@@ -15,10 +14,15 @@
     ) !important;
   }
 }
-
-section.tasks-cards {
-  flex-flow: wrap;
+header {
+  align-items: flex-end;
   display: flex;
+  flex-direction: column;
+  margin-bottom: calc(var(--custom-spacing) * 3);
+}
+section.tasks-cards {
+  display: flex;
+  flex-flow: wrap;
   gap: calc(var(--custom-spacing) * 3);
   justify-content: center;
   min-width: 0;
@@ -27,23 +31,21 @@ section.tasks-cards {
   & > mat-card.tasks.task-card {
     display: flex;
     min-width: 0;
+
     width: calc(
       100% * 12 / var(--grid-columns) - (var(--grid-columns) - 12) *
         (var(--grid-column-spacing) / var(--grid-columns))
     );
-
     & > mat-card-header {
       display: flex;
       flex-direction: column;
       gap: calc(var(--custom-spacing) * 2);
       padding: 32px 24px 8px !important;
     }
-
     & > mat-card-content {
-      padding: 0 24px 32px 24px;
       height: 100%;
+      padding: 0 24px 32px 24px;
     }
-
     & > mat-card-footer {
       align-items: center;
       display: flex;
@@ -53,17 +55,16 @@ section.tasks-cards {
       padding: calc(var(--custom-spacing) * 2);
 
       & > .info {
-        display: flex;
         align-items: center;
+        display: flex;
 
         & > mat-icon {
           height: 18px;
         }
-
         & > p {
           color: #667085;
-          font-weight: 400;
           font-size: 0.875rem;
+          font-weight: 400;
           line-height: 1.57;
           margin: 0;
           white-space: nowrap;
@@ -72,7 +73,93 @@ section.tasks-cards {
     }
   }
 }
-
 mat-paginator {
   margin: 0 auto;
+}
+
+mat-card-content {
+  height: 400px !important;
+}
+.task-card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  transition: box-shadow 0.3s;
+
+  &.task-done {
+    background-color: #f1f8e9;
+  }
+}
+
+.mat-card-header {
+  .subtitle-icon {
+    font-size: 14px;
+    width: 14px;
+    height: 14px;
+    vertical-align: middle;
+    margin-right: 4px;
+  }
+}
+
+.card-content {
+  flex: 1;
+  overflow-y: auto;
+  padding-top: 8px !important;
+}
+
+.chip-row {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+
+  .priority-chip,
+  .status-chip {
+    font-size: 12px;
+    min-height: 24px;
+    line-height: 24px;
+    padding: 0 10px;
+  }
+
+  .chip-icon {
+    font-size: 16px;
+    width: 16px;
+    height: 16px;
+    margin-right: 2px;
+  }
+}
+
+.description {
+  white-space: pre-line;
+  margin: 0 0 12px;
+  line-height: 1.5;
+}
+
+.completion-section {
+  border-top: 1px solid #e0e0e0;
+  padding-top: 8px;
+  margin-top: 8px;
+
+  .completion-date {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 13px;
+    color: #2e7d32;
+    margin-bottom: 4px;
+  }
+
+  .feedback {
+    .feedback-text {
+      margin: 4px 0 0 8px;
+      font-style: italic;
+      color: #555;
+    }
+  }
+}
+
+.mat-card-actions {
+  margin-top: auto;
+  padding: 8px 16px;
+  border-top: 1px solid #eee;
 }

@@ -108,8 +108,8 @@ export class AuthService {
   }
 
   logout(): void {
-    this.authStateService.clearUser();
     this.router.navigateByUrl('/');
+    this.authStateService.clearUser();
     this.openAuthModal(Login);
   }
 

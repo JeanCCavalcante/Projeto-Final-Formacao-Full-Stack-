@@ -20,6 +20,8 @@ export class Menu {
   }
 
   signOut(): void {
-    this.authService.logout();
+    if (confirm('Tem certeza que deseja sair?')) {
+      this.authService.logout();
+    }
   }
 }
