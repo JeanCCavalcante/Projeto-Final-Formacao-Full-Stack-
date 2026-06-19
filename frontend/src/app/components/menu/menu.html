@@ -1,0 +1,27 @@
+@if (loggedUser(); as loggedUser) {
+<app-avatar [loggedUserName]="loggedUser.name" [matMenuTriggerFor]="toolbarMenu"
+    (click)="openToolbarMenu()"></app-avatar>
+<mat-menu #toolbarMenu="matMenu">
+    <hgroup>
+        <h6>{{ loggedUser.name }}</h6>
+        <p>{{ loggedUser.role | titlecase }}</p>
+    </hgroup>
+    <mat-divider></mat-divider>
+    <button mat-menu-item type="button" routerLink="/account">
+        <mat-icon svgIcon="ph-duotone:user-square"></mat-icon>
+        <span>Perfil</span>
+    </button>
+    <button mat-menu-item type="button" routerLink="/tasks">
+        <mat-icon svgIcon="ph-duotone:check-square"></mat-icon>
+        <span>Tarefas</span>
+    </button>
+    <button mat-menu-item type="button" routerLink="/analytics">
+        <mat-icon svgIcon="ph-duotone:chart-pie"></mat-icon>
+        <span>Analytics</span>
+    </button>
+    <button mat-menu-item type="button" (click)="signOut()">
+        <mat-icon svgIcon="ph-duotone:sign-out"></mat-icon>
+        <span>Sair</span>
+    </button>
+</mat-menu>
+}

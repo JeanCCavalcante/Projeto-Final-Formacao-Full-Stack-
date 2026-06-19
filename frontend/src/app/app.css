@@ -1,0 +1,21 @@
+mat-toolbar {
+  background-color: var(--mat-sys-surface);
+  display: flex;
+  justify-content: space-between;
+  margin: 0 auto;
+}
+
+app-menu {
+  height: 40px;
+}
+
+mat-divider {
+  top: 64px;
+}
+
+h2 {
+  display: block;
+  font: var(--mat-sys-headline-medium);
+  letter-spacing: var(--mat-sys-headline-medium-tracking);
+  margin: 0;
+}

@@ -1,0 +1,13 @@
+<mat-dialog-content>
+    <app-logo></app-logo>
+    <mat-card class="form">
+        <mat-card-header>
+            <mat-card-title>Crie sua conta</mat-card-title>
+            <mat-card-subtitle>Preencha o formulário abaixo para criar sua conta</mat-card-subtitle>
+        </mat-card-header>
+        <mat-divider></mat-divider>
+        <app-user-form [showPasswordField]="true" [showConfirmPasswordField]="true" [fullWidthButton]="true"
+            (formSubmit)="typeGuard($event)" submitButtonLabel="Cadastrar"></app-user-form>
+    </mat-card>
+    <div class="form-footer"><span>Já possui uma conta? <a (click)="switchAuth()">Faça o login</a></span></div>
+</mat-dialog-content>

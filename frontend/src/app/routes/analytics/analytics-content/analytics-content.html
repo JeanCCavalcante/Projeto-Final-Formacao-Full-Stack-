@@ -1,0 +1,94 @@
+<mat-card class="analytics analytics-card">
+    <mat-card-content>
+        <div class="analytics-icon">
+            <mat-icon svgIcon="ph-duotone:chart-line"></mat-icon>
+        </div>
+        <div class="title-group">
+            <mat-card-title>{{ cardData?.foco_atual_qtd ?? 0 }}</mat-card-title>
+            <mat-card-subtitle>Foco Atual</mat-card-subtitle>
+        </div>
+    </mat-card-content>
+</mat-card>
+
+<mat-card class="analytics analytics-card">
+    <mat-card-content>
+        <div class="analytics-icon">
+            <mat-icon svgIcon="ph-duotone:calendar"></mat-icon>
+        </div>
+        <div class="title-group">
+            <mat-card-title>{{ cardData?.ritmo_jornada_dias ?? 0 }}</mat-card-title>
+            <mat-card-subtitle>Ritmo Jornada</mat-card-subtitle>
+        </div>
+    </mat-card-content>
+</mat-card>
+
+<mat-card class="analytics analytics-card">
+    <mat-card-content>
+        <div class="analytics-icon">
+            <mat-icon svgIcon="ph-duotone:warning"></mat-icon>
+        </div>
+        <div class="title-group">
+            <mat-card-title>{{ cardData?.pontos_destrava_qtd ?? 0 }}</mat-card-title>
+            <mat-card-subtitle>Pontos Destrava</mat-card-subtitle>
+        </div>
+    </mat-card-content>
+</mat-card>
+
+<mat-card class="analytics analytics-card">
+    <mat-card-content>
+        <div class="analytics-icon">
+            <mat-icon svgIcon="ph-duotone:receipt"></mat-icon>
+        </div>
+        <div class="title-group">
+            <mat-card-title>{{ cardData?.saude_estimativas_pct ?? 0 }}%</mat-card-title>
+            <mat-card-subtitle>Saúde Estimativas</mat-card-subtitle>
+        </div>
+    </mat-card-content>
+</mat-card>
+
+<mat-card class="analytics">
+    <mat-card-header>
+        <mat-card-title-group>
+            <mat-card-title>Evolução do Ritmo</mat-card-title>
+            <button matButton type="button" class="analytics-actions">
+                <mat-icon svgIcon="ph-duotone:arrow-clockwise" style="font-size: 0;"></mat-icon>
+                <span>Sync</span>
+            </button>
+        </mat-card-title-group>
+    </mat-card-header>
+    <mat-card-content>
+        <app-rhythm-chart [sprints]="ritmoData?.series?.sprints || []"
+            [diasGastos]="ritmoData?.series?.dias_gastos || []"
+            [metaEsperada]="ritmoData?.series?.meta_esperada || []"></app-rhythm-chart>
+    </mat-card-content>
+    <mat-divider></mat-divider>
+    <mat-card-actions>
+    </mat-card-actions>
+</mat-card>
+
+<mat-card class="analytics">
+    <mat-card-header>
+        <mat-card-title-group>
+            <mat-card-title>{{ effortData.length ? 'Distribuição do Esforço' : 'Esforço' }}</mat-card-title>
+        </mat-card-title-group>
+    </mat-card-header>
+    <mat-card-content>
+        <app-effort-chart [data]="effortData"></app-effort-chart>
+        @if (effortData.length >= 3) {
+        <div class="legend">
+            <mat-card-title-group class="legend-item">
+                <mat-card-title>{{ effortData[0].quantidade }}</mat-card-title>
+                <mat-card-subtitle>Concluídas</mat-card-subtitle>
+            </mat-card-title-group>
+            <mat-card-title-group class="legend-item">
+                <mat-card-title>{{ effortData[1].quantidade }}</mat-card-title>
+                <mat-card-subtitle>Em andamento</mat-card-subtitle>
+            </mat-card-title-group>
+            <mat-card-title-group class="legend-item">
+                <mat-card-title>{{ effortData[2].quantidade }}</mat-card-title>
+                <mat-card-subtitle>Pendentes</mat-card-subtitle>
+            </mat-card-title-group>
+        </div>
+        }
+    </mat-card-content>
+</mat-card>

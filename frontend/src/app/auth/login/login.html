@@ -1,0 +1,14 @@
+<mat-dialog-content>
+    <app-logo></app-logo>
+    <mat-card>
+        <mat-card-header>
+            <mat-card-title>Bem vindo de volta</mat-card-title>
+            <mat-card-subtitle>Preencha suas credenciais abaixo para acessar sua conta</mat-card-subtitle>
+        </mat-card-header>
+        <mat-divider></mat-divider>
+        <app-user-form [isLoginForm]="true" [showPasswordField]="true" [showConfirmPasswordField]="false"
+            [fullWidthButton]="true" (formSubmit)="typeGuard($event)" submitButtonLabel="Entrar">
+        </app-user-form>
+    </mat-card>
+    <div class="form-footer"><span>Não tem uma conta? <a (click)="switchAuth()">Cadastre-se</a></span></div>
+</mat-dialog-content>

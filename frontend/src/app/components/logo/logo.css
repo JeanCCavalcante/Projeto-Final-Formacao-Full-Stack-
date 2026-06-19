@@ -1,0 +1,16 @@
+.logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+h1 {
+  color: var(--mat-sys-on-surface);
+  font-family: 'Antonio', sans-serif;
+  font-size: 2.5rem;
+  font-weight: 500;
+  letter-spacing: -1px;
+  line-height: 1.2;
+  text-decoration: none;
+  text-transform: uppercase;
+}

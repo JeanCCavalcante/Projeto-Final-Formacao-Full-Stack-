@@ -1,0 +1,28 @@
+@if (loggedUserProfile(); as loggedUser) {
+<mat-card class="account info">
+    <mat-card-header class="info">
+        <app-avatar [loggedUserName]="loggedUser.name" [avatarSize]="80"></app-avatar>
+    </mat-card-header>
+    <mat-card-content class="info">
+        <h5>{{ loggedUser.name }}</h5>
+        <p>{{ loggedUser.role | titlecase }}</p>
+        <p>{{ loggedUser.department }}</p>
+    </mat-card-content>
+    <mat-divider></mat-divider>
+    <mat-card-actions>
+        <button matButton type="button" class="info">Atualizar avatar</button>
+    </mat-card-actions>
+</mat-card>
+<mat-card class="account form">
+    <mat-card-header class="form">
+        <mat-card-title-group>
+            <mat-card-title>Minhas informações</mat-card-title>
+            <mat-card-subtitle>Edite as informações da sua conta usando o formulário abaixo</mat-card-subtitle>
+        </mat-card-title-group>
+    </mat-card-header>
+    <mat-divider></mat-divider>
+    <app-user-form [initialData]="loggedUserProfile() ?? {}" [showPasswordField]="false"
+        submitButtonLabel="Atualizar informações" [fullWidthButton]="false"
+        (formSubmit)="typeGuard($event)"></app-user-form>
+</mat-card>
+}

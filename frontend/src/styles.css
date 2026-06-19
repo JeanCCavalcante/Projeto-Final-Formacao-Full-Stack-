@@ -1,0 +1,73 @@
+body {
+  background-color: var(--mat-sys-surface);
+  color: var(--mat-sys-on-surface);
+  color-scheme: light;
+  font: var(--mat-sys-body-medium);
+  font-optical-sizing: none;
+  height: 100%;
+  letter-spacing: 0;
+  line-height: 1.5;
+  margin: 0;
+}
+main {
+  box-sizing: border-box;
+  height: fit-content;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 64px calc(3 * var(--custom-spacing));
+}
+p {
+  font: var(--mat-sys-body-large);
+  letter-spacing: 0;
+  margin: 0;
+}
+a {
+  color: var(--mat-sys-primary);
+  cursor: pointer;
+  font-weight: 600;
+  text-decoration: none;
+}
+.form-modal {
+  backdrop-filter: blur(10px);
+  background: rgba(0, 0, 0, 0.2);
+}
+.form-footer {
+  display: flex;
+  font: var(--mat-sys-body-medium);
+  justify-content: center;
+  letter-spacing: var(--mat-sys-body-medium-tracking);
+  margin: calc(var(--custom-spacing) * 2);
+}
+mat-card {
+  width: 100%;
+}
+mat-card-header {
+  padding: 32px 24px 16px !important;
+}
+mat-card-content {
+  display: flex;
+  flex-direction: column;
+  gap: calc(3 * var(--custom-spacing));
+  padding: 32px 24px;
+}
+mat-card-actions > button[matButton='filled'].full-width {
+  width: 100%;
+}
+mat-card-actions:has(> button[matButton='filled']) {
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  gap: var(--custom-spacing);
+  justify-content: flex-end;
+}
+app-account,
+app-tasks,
+app-analytics,
+app-analytics-content {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: calc(var(--custom-spacing) * 3);
+  min-width: 0;
+  padding: var(--custom-spacing);
+}

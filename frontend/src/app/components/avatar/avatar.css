@@ -1,0 +1,11 @@
+ngx-avatars ::ng-deep .avatar-container {
+  cursor: pointer;
+  user-select: none;
+}
+
+ngx-avatars ::ng-deep .avatar-content {
+  background-color: var(--mat-sys-primary-container) !important;
+  color: var(--mat-sys-primary) !important;
+  font-family: 'Inter', sans-serif !important;
+  font-weight: 600 !important;
+}
